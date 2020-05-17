@@ -4,11 +4,14 @@
 package allinter;
 
 import org.junit.Test;
+
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class AppTest {
-    @Test public void testAppHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
+    private static final String[] ARGS = new String[] { "--no-html-checker" };
+
+    @Test public void testMain() throws Exception {
+        assertThat(App.main(ARGS), is(0));
     }
 }

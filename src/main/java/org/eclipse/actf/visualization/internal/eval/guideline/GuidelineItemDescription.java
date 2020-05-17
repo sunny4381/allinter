@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 import org.eclipse.actf.util.logging.DebugPrintUtil;
 import org.eclipse.actf.visualization.eval.ICheckerInfoProvider;
 import org.eclipse.actf.visualization.internal.eval.CheckerExtension;
+import allinter.ResourceBundleControlHolder;
 
 public class GuidelineItemDescription {
 

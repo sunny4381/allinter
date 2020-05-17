@@ -13,6 +13,7 @@ package org.eclipse.actf.visualization.eval.problem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.eclipse.actf.visualization.eval.IEvaluationItem;
+import allinter.HighlightTargetPathInfo;
 import org.w3c.dom.Node;
 
 import java.awt.*;

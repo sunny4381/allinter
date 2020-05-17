@@ -14,6 +14,8 @@ package org.eclipse.actf.visualization.eval.problem;
 import java.util.*;
 
 import org.eclipse.actf.visualization.util.html2view.Html2ViewMapData;
+import allinter.HighlightTargetPathInfo;
+import allinter.NodeUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

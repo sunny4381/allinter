@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.ResourceBundle;
 
 import org.eclipse.actf.visualization.eval.ICheckerInfoProvider;
+import allinter.ResourceBundleControlHolder;
 
 public class HtmlCheckerInfoProvider implements ICheckerInfoProvider {
 
