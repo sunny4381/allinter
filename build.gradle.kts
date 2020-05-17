@@ -23,6 +23,9 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation("com.google.guava:guava:28.2-jre")
+    implementation("com.ibm.icu:icu4j:66.1")
+    implementation("com.github.kklisura.cdt:cdt-java-client:2.1.0")
+    implementation("info.picocli:picocli:4.2.0")
     // eclipse
     implementation("org.eclipse.platform:org.eclipse.core.runtime:3.17.100")
     implementation("org.eclipse.platform:org.eclipse.ui:3.116.0") {
@@ -32,6 +35,7 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
 }
 
 application {
