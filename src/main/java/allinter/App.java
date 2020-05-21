@@ -28,7 +28,11 @@ public class App implements Callable<Integer> {
     @CommandLine.ArgGroup(exclusive = false, heading = "\nlow vision options\n")
     private LowVisionOptions lowVisionOptions = new LowVisionOptions();
 
-    public static int main(String[] args) {
+    public static void main(String[] args) {
+        System.exit(execute(args));
+    }
+
+    public static int execute(String[] args) {
         int exitCode = new CommandLine(new App())
                 .registerConverter(Locale.class, s -> new Locale.Builder().setLanguageTag(s).build())
                 .execute(args);

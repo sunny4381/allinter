@@ -12,6 +12,6 @@ public class AppTest {
     private static final String[] ARGS = new String[] { "--no-html-checker" };
 
     @Test public void testMain() throws Exception {
-        assertThat(App.main(ARGS), is(0));
+        assertThat(App.execute(ARGS), is(0));
     }
 }
