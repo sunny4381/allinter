@@ -49,3 +49,8 @@ val jar by tasks.getting(Jar::class) {
         attributes["Class-Path"] = configurations.runtimeClasspath.get().map { it.getName() }.joinToString(separator = " ")
     }
 }
+
+tasks.register<Sync>("libs") {
+    from(configurations.runtimeClasspath)
+    into("$buildDir/libs")
+}
