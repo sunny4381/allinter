@@ -42,3 +42,10 @@ application {
     // Define the main class for the application.
     mainClassName = "allinter.App"
 }
+
+val jar by tasks.getting(Jar::class) {
+    manifest {
+        attributes["Main-Class"] = application.mainClassName
+        attributes["Class-Path"] = configurations.runtimeClasspath.get().map { it.getName() }.joinToString(separator = " ")
+    }
+}
