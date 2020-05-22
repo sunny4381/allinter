@@ -16,7 +16,7 @@ public class App implements Callable<Integer> {
     @CommandLine.Option(names = "--lang", description = "specifies lang. default is unspecified(use system default)")
     private Locale lang = Locale.getDefault();
 
-    @CommandLine.Option(names = "--interactive", negatable = true, description = "specifies to execute with headless or not")
+    @CommandLine.Option(names = "--no-interactive", negatable = true, description = "specifies to execute with headless or not")
     private boolean interactive = true;
 
     @CommandLine.Option(names = "--window-size", description = "specifies the browser window size. default is unspecified (auto)")
