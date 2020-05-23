@@ -9,6 +9,8 @@ import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
 
+import java.util.Optional;
+
 import static allinter.cdt.Util.navigateAndWait;
 
 public class ApplicationTab {
@@ -63,11 +65,15 @@ public class ApplicationTab {
         });
     }
 
-    public void start() {
+    public void start(final Optional<String> url) {
         try {
             final var navigate = navigateAndWait(this.devToolsService, this.page, URL, 10000);
             if (navigate.getErrorText() != null && ! navigate.getErrorText().isEmpty()) {
                 throw new RuntimeException(navigate.getErrorText());
+            }
+
+            if (url.isPresent()) {
+                openUrl(url.get());
             }
 
             while (!this.applicationDone) {

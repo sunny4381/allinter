@@ -7,6 +7,7 @@ import com.github.kklisura.cdt.services.types.ChromeTab;
 import picocli.CommandLine;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 public class App implements Callable<Integer> {
@@ -80,7 +81,7 @@ public class App implements Callable<Integer> {
                 // Ctrl + Q on Google Chrome
                 startAliveMonitor(launcher, applicationTab);
 
-                applicationTab.start();
+                applicationTab.start(Optional.ofNullable(this.url));
             } else {
                 if (this.url == null || this.url.isEmpty()) {
                     throw new IllegalArgumentException("url must be specified on no-interactive");
