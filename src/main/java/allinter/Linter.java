@@ -57,7 +57,9 @@ public class Linter implements Runnable {
             allinter.htmlchecker.Checker checker = new allinter.htmlchecker.Checker(browser, this.url, workDirectory.toString());
             checker.run();
 
-            outputResults(checker.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
+            if (this.htmlCheckerOptions.getOutputReportFilepath() != null) {
+                outputResults(checker.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
+            }
         } finally {
             walk(workDirectory)
                     .sorted(Comparator.reverseOrder())
@@ -74,9 +76,15 @@ public class Linter implements Runnable {
         allinter.lowvision.Checker checker = new allinter.lowvision.Checker(browser, this.url, createLowVisionType());
         checker.run();
 
-        outputResults(checker.getProblemList(), this.lowVisionOptions.getOutputReportFilepath());
-        outputImage(checker.getLowvisionImage(), this.lowVisionOptions.getOutputImageFilepath());
-        outputImage(checker.getSourceImage(), this.lowVisionOptions.getSourceImageFilepath());
+        if (this.lowVisionOptions.getOutputReportFilepath() != null) {
+            outputResults(checker.getProblemList(), this.lowVisionOptions.getOutputReportFilepath());
+        }
+        if (this.lowVisionOptions.getOutputImageFilepath() != null) {
+            outputImage(checker.getLowvisionImage(), this.lowVisionOptions.getOutputImageFilepath());
+        }
+        if (this.lowVisionOptions.getSourceImageFilepath() != null) {
+            outputImage(checker.getSourceImage(), this.lowVisionOptions.getSourceImageFilepath());
+        }
     }
 
     private LowVisionType createLowVisionType() throws LowVisionException {
