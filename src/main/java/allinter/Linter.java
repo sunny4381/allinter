@@ -54,7 +54,7 @@ public class Linter implements Runnable {
 
         Path workDirectory = createTempDirectory("htmlchecker");
         try {
-            var checker = new allinter.htmlchecker.Checker(browser, this.url, workDirectory.toString());
+            allinter.htmlchecker.Checker checker = new allinter.htmlchecker.Checker(browser, this.url, workDirectory.toString());
             checker.run();
 
             outputResults(checker.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
@@ -71,7 +71,7 @@ public class Linter implements Runnable {
             return;
         }
 
-        var checker = new allinter.lowvision.Checker(browser, this.url, createLowVisionType());
+        allinter.lowvision.Checker checker = new allinter.lowvision.Checker(browser, this.url, createLowVisionType());
         checker.run();
 
         outputResults(checker.getProblemList(), this.lowVisionOptions.getOutputReportFilepath());
@@ -105,7 +105,7 @@ public class Linter implements Runnable {
 
         ensureToExistDirectory(outputFilepath.getParent());
 
-        try (PrintWriter writer = new PrintWriter(outputFilepath.toFile(), UTF_8)) {
+        try (PrintWriter writer = new PrintWriter(outputFilepath.toFile(), UTF_8.name())) {
             for (IProblemItem problemItem : problemList) {
                 writer.println(MAPPER.writeValueAsString(problemItem));
             }

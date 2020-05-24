@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kklisura.cdt.protocol.commands.*;
 import com.github.kklisura.cdt.protocol.commands.Runtime;
+import com.github.kklisura.cdt.protocol.types.page.Navigate;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
@@ -67,7 +68,7 @@ public class ApplicationTab {
 
     public void start(final Optional<String> url) {
         try {
-            final var navigate = navigateAndWait(this.devToolsService, this.page, URL, 10000);
+            final Navigate navigate = navigateAndWait(this.devToolsService, this.page, URL, 10000);
             if (navigate.getErrorText() != null && ! navigate.getErrorText().isEmpty()) {
                 throw new RuntimeException(navigate.getErrorText());
             }
@@ -105,7 +106,7 @@ public class ApplicationTab {
     }
 
     private void onHostCallback(final JsonNode command) {
-        final var name = command.get("name").asText();
+        final String name = command.get("name").asText();
         if (name == null || name.isEmpty()) {
             return;
         }
@@ -121,12 +122,12 @@ public class ApplicationTab {
     }
 
     private void openUrl(final String url) {
-        final var tab = this.chromeService.createTab();
-        final var devTools = this.chromeService.createDevToolsService(tab);
-        var browserTab = new BrowserTab(this.chromeService, tab, devTools);
+        final ChromeTab tab = this.chromeService.createTab();
+        final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(tab);
+        BrowserTab browserTab = new BrowserTab(this.chromeService, tab, devTools);
         browserTab.navigate(url);
 
-        var linter = new Linter(browserTab, url, this.app.getHtmlCheckerOptions(), this.app.getLowVisionOptions());
+        Linter linter = new Linter(browserTab, url, this.app.getHtmlCheckerOptions(), this.app.getLowVisionOptions());
         linter.run();
     }
 }

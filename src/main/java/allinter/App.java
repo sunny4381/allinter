@@ -2,6 +2,7 @@ package allinter;
 
 import com.github.kklisura.cdt.launch.ChromeArguments;
 import com.github.kklisura.cdt.launch.ChromeLauncher;
+import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
 import picocli.CommandLine;
@@ -50,8 +51,8 @@ public class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        try (final var launcher = new ChromeLauncher()) {
-            final var argumentsBuilder = ChromeArguments.defaults(!this.interactive);
+        try (final ChromeLauncher launcher = new ChromeLauncher()) {
+            final ChromeArguments.Builder argumentsBuilder = ChromeArguments.defaults(!this.interactive);
             argumentsBuilder.additionalArguments("disable-backgrounding-occluded-windows", true);
             argumentsBuilder.additionalArguments("disable-breakpad", true);
             argumentsBuilder.additionalArguments("disable-dev-shm-usage", true);
@@ -68,12 +69,12 @@ public class App implements Callable<Integer> {
             if (this.windowSize != null && !this.windowSize.isEmpty()) {
                 argumentsBuilder.additionalArguments("window-size", this.windowSize);
             }
-            final var chromeService = launcher.launch(argumentsBuilder.build());
-            final var tab = prepareTab(chromeService);
-            final var devToolsService = chromeService.createDevToolsService(tab);
+            final ChromeService chromeService = launcher.launch(argumentsBuilder.build());
+            final ChromeTab tab = prepareTab(chromeService);
+            final ChromeDevToolsService devToolsService = chromeService.createDevToolsService(tab);
 
             if (this.interactive) {
-                final var applicationTab = new ApplicationTab(this, chromeService, tab, devToolsService);
+                final ApplicationTab applicationTab = new ApplicationTab(this, chromeService, tab, devToolsService);
 
                 // Ctrl + C
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> applicationTab.stop()));
@@ -86,10 +87,10 @@ public class App implements Callable<Integer> {
                 if (this.url == null || this.url.isEmpty()) {
                     throw new IllegalArgumentException("url must be specified on no-interactive");
                 }
-                var browserTab = new BrowserTab(chromeService, tab, devToolsService);
+                BrowserTab browserTab = new BrowserTab(chromeService, tab, devToolsService);
                 browserTab.navigate(this.url);
 
-                var linter = new Linter(browserTab, this.url, this.htmlCheckerOptions, this.lowVisionOptions);
+                Linter linter = new Linter(browserTab, this.url, this.htmlCheckerOptions, this.lowVisionOptions);
                 linter.run();
             }
         }
@@ -112,7 +113,7 @@ public class App implements Callable<Integer> {
     }
 
     private static void startAliveMonitor(final ChromeLauncher launcher, final ApplicationTab tab) {
-        final var thread = new Thread(() -> {
+        final Thread thread = new Thread(() -> {
             while (true) {
                 if (!launcher.isAlive()) {
                     tab.stop();
