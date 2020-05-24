@@ -113,7 +113,7 @@ public class Linter implements Runnable {
     }
 
     private void outputImage(final BufferedImage image, final Path outputFilepath) throws IOException {
-        if (outputFilepath != null) {
+        if (outputFilepath == null) {
             return;
         }
 
