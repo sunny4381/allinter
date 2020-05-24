@@ -3,15 +3,65 @@
  */
 package allinter;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+
+import static java.nio.file.Files.createTempDirectory;
+import static java.nio.file.Files.walk;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
 public class AppTest {
-    private static final String[] ARGS = new String[] { "--no-html-checker" };
+    @Ignore
+    @Test
+    public void testMain001() throws Exception {
+        final Path workDirectory = createTempDirectory("testMain001");
+        try {
+            final Path report = workDirectory.resolve("a.json");
+            final Path outputImage = workDirectory.resolve("b.jpeg");
+            final Path sourceImage = workDirectory.resolve("c.jpeg");
 
-    @Test public void testMain() throws Exception {
-        assertThat(App.execute(ARGS), is(0));
+            final String[] args = new String[]{
+                    "--no-interactive", "--no-html-checker",
+                    "--lowvision-output-report", report.toString(),
+                    "--lowvision-output-image", outputImage.toString(),
+                    "--lowvision-source-image", sourceImage.toString(),
+                    "http://sunny4381.github.io/"};
+            assertThat(App.execute(args), is(0));
+            assertThat(Files.exists(report), is(true));
+            assertThat(Files.exists(outputImage), is(true));
+            assertThat(Files.exists(sourceImage), is(true));
+        } finally {
+            walk(workDirectory)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
+    }
+
+    @Ignore
+    @Test
+    public void testMain002() throws Exception {
+        final Path workDirectory = createTempDirectory("testMain001");
+        try {
+            final Path report = workDirectory.resolve("a.json");
+
+            final String[] args = new String[]{
+                    "--no-interactive", "--no-lowvision", "--html-checker-output-report", report.toString(),
+                    "http://sunny4381.github.io/"};
+            assertThat(App.execute(args), is(0));
+            assertThat(Files.exists(report), is(true));
+        } finally {
+            walk(workDirectory)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
     }
 }
