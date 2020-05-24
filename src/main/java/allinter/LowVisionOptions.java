@@ -2,18 +2,21 @@ package allinter;
 
 import picocli.CommandLine;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class LowVisionOptions {
     @CommandLine.Option(names = "--no-lowvision", negatable = true)
     private boolean lowvision = true;
 
     @CommandLine.Option(names = "--lowvision-output-report", description = "specifies output report file. default is a.json")
-    private String outputReportFilepath = "a.json";
+    private Path outputReportFilepath = Paths.get("lv-report.json");
 
     @CommandLine.Option(names = "--lowvision-output-image", description = "specifies output image file. default doesn't output image file.")
-    private String outputImageFilepath = null;
+    private Path outputImageFilepath = null;
 
     @CommandLine.Option(names = "--lowvision-source-image", description = "specifies output source image file. default doesn't output source image file.")
-    private String sourceImageFilepath = null;
+    private Path sourceImageFilepath = null;
 
     @CommandLine.Option(names = "--no-lowvision-eyesight", negatable = true)
     private boolean lowvisionEyesight = true;
@@ -44,27 +47,27 @@ public class LowVisionOptions {
         this.lowvision = lowvision;
     }
 
-    public String getOutputReportFilepath() {
+    public Path getOutputReportFilepath() {
         return outputReportFilepath;
     }
 
-    public void setOutputReportFilepath(String outputReportFilepath) {
+    public void setOutputReportFilepath(Path outputReportFilepath) {
         this.outputReportFilepath = outputReportFilepath;
     }
 
-    public String getOutputImageFilepath() {
+    public Path getOutputImageFilepath() {
         return outputImageFilepath;
     }
 
-    public void setOutputImageFilepath(String outputImageFilepath) {
+    public void setOutputImageFilepath(Path outputImageFilepath) {
         this.outputImageFilepath = outputImageFilepath;
     }
 
-    public String getSourceImageFilepath() {
+    public Path getSourceImageFilepath() {
         return sourceImageFilepath;
     }
 
-    public void setSourceImageFilepath(String sourceImageFilepath) {
+    public void setSourceImageFilepath(Path sourceImageFilepath) {
         this.sourceImageFilepath = sourceImageFilepath;
     }
 
