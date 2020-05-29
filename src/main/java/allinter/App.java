@@ -54,6 +54,10 @@ public class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
+        if (!this.lang.equals(Locale.getDefault())) {
+            Locale.setDefault(this.lang);
+        }
+
         try (final ChromeLauncher launcher = new ChromeLauncher()) {
             final ChromeArguments.Builder argumentsBuilder = ChromeArguments.defaults(!this.interactive);
             argumentsBuilder.additionalArguments("disable-backgrounding-occluded-windows", true);
