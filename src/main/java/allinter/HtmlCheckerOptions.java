@@ -9,7 +9,7 @@ public class HtmlCheckerOptions {
     @CommandLine.Option(names = "--no-html-checker", negatable = true)
     private boolean htmlChecker = true;
 
-    @CommandLine.Option(names = "--html-checker-output-report", description = "specifies output report file. default is a.json")
+    @CommandLine.Option(names = "--html-checker-output-report", description = "specifies output report file. default is hc-report.json")
     private Path outputReportFilepath = Paths.get("hc-report.json");
 
     public HtmlCheckerOptions() {

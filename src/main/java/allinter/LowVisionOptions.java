@@ -9,7 +9,7 @@ public class LowVisionOptions {
     @CommandLine.Option(names = "--no-lowvision", negatable = true)
     private boolean lowvision = true;
 
-    @CommandLine.Option(names = "--lowvision-output-report", description = "specifies output report file. default is a.json")
+    @CommandLine.Option(names = "--lowvision-output-report", description = "specifies output report file. default is lv-report.json")
     private Path outputReportFilepath = Paths.get("lv-report.json");
 
     @CommandLine.Option(names = "--lowvision-output-image", description = "specifies output image file. default doesn't output image file.")
