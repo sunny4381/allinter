@@ -18,8 +18,11 @@ public class App implements Callable<Integer> {
     @CommandLine.Option(names = "--lang", description = "specifies lang. default is unspecified(use system default)")
     private Locale lang = Locale.getDefault();
 
-    @CommandLine.Option(names = "--no-interactive", negatable = true, description = "specifies to execute with headless or not")
+    @CommandLine.Option(names = "--no-interactive", negatable = true, description = "specifies to execute google-chrome as headless or not")
     private boolean interactive = true;
+
+    @CommandLine.Option(names = "--no-sandbox", negatable = true, description = "specifies to execute google-chrome within sandbox or not")
+    private boolean sandbox = true;
 
     @CommandLine.Option(names = "--window-size", description = "specifies the browser window size. default is unspecified (auto)")
     private String windowSize = null;
@@ -66,6 +69,9 @@ public class App implements Callable<Integer> {
             argumentsBuilder.additionalArguments("lang", this.lang.toLanguageTag());
             argumentsBuilder.additionalArguments("password-store", "basic");
             argumentsBuilder.additionalArguments("use-mock-keychain", true);
+            if (!this.sandbox) {
+                argumentsBuilder.additionalArguments("no-sandbox", true);
+            }
             if (this.windowSize != null && !this.windowSize.isEmpty()) {
                 argumentsBuilder.additionalArguments("window-size", this.windowSize);
             }
