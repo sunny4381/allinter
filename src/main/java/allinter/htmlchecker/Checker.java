@@ -1,9 +1,10 @@
 package allinter.htmlchecker;
 
+import allinter.BrowserTab;
+import allinter.HtmlCheckerOptions;
 import org.eclipse.actf.model.dom.html.DocumentTypeUtil;
 import org.eclipse.actf.model.dom.html.HTMLParserFactory;
 import org.eclipse.actf.model.dom.html.IHTMLParser;
-import org.eclipse.actf.model.dom.html.ParseException;
 import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
 import org.eclipse.actf.util.FileUtils;
 import org.eclipse.actf.util.dom.DomPrintUtil;
@@ -27,12 +28,15 @@ import org.eclipse.actf.visualization.util.html2view.Html2ViewMapMaker;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.*;
+
+import static java.nio.file.Files.createTempDirectory;
+import static java.nio.file.Files.walk;
 
 public class Checker {
     private static boolean PERFORMANCE_DEBUG = false;
@@ -59,6 +63,24 @@ public class Checker {
         this.webBrowser = browser;
         this.targetUrl = url;
         this.tmpDirS = workDirectory.endsWith("/") ? workDirectory : workDirectory + "/";
+    }
+
+    public static Checker validate(final BrowserTab browser, final String url, final HtmlCheckerOptions htmlCheckerOptions) throws Exception {
+        if (! htmlCheckerOptions.isHtmlChecker()) {
+            return null;
+        }
+
+        Path workDirectory = createTempDirectory("htmlchecker");
+        try {
+            allinter.htmlchecker.Checker checker = new allinter.htmlchecker.Checker(browser, url, workDirectory.toString());
+            checker.run();
+            return checker;
+        } finally {
+            walk(workDirectory)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
     }
 
     public List<IProblemItem> getProblemList() {

@@ -1,8 +1,10 @@
 package allinter.lowvision;
 
 import allinter.BrowserTab;
+import allinter.LowVisionOptions;
 import org.eclipse.actf.model.ui.ImagePositionInfo;
 import org.eclipse.actf.model.ui.editor.browser.ICurrentStyles;
+import org.eclipse.actf.visualization.engines.lowvision.LowVisionException;
 import org.eclipse.actf.visualization.engines.lowvision.LowVisionType;
 import org.eclipse.actf.visualization.engines.lowvision.PageEvaluation;
 import org.eclipse.actf.visualization.engines.lowvision.image.IPageImage;
@@ -40,6 +42,35 @@ public class Checker {
         this.styleInfoArray.add(Collections.emptyMap());
 
         this.lowVisionType = lowVisionType;
+    }
+
+    public static Checker validate(final BrowserTab browser, final String url, final LowVisionOptions lowVisionOptions) throws LowVisionException, IOException {
+        if (! lowVisionOptions.isLowvision()) {
+            return null;
+        }
+
+        allinter.lowvision.Checker checker = new allinter.lowvision.Checker(browser, url, createLowVisionType(lowVisionOptions));
+        checker.run();
+        return checker;
+    }
+
+    private static LowVisionType createLowVisionType(final LowVisionOptions lowVisionOptions) throws LowVisionException {
+        LowVisionType lowVisionType = new LowVisionType();
+
+        if (lowVisionOptions.isLowvisionEyesight()) {
+            lowVisionType.setEyesight(lowVisionOptions.isLowvisionEyesight());
+            lowVisionType.setEyesightDegree(lowVisionOptions.getLowvisionEyesightDegree());
+        }
+        if (lowVisionOptions.isLowvisionCVD()) {
+            lowVisionType.setCVD(lowVisionOptions.isLowvisionCVD());
+            lowVisionType.setCVDType(lowVisionOptions.getLowvisionCVDType());
+        }
+        if (lowVisionOptions.isLowvisionColorFilter()) {
+            lowVisionType.setColorFilter(lowVisionOptions.isLowvisionColorFilter());
+            lowVisionType.setColorFilterDegree(lowVisionOptions.getLowvisionColorFilterDegree());
+        }
+
+        return lowVisionType;
     }
 
     public List<IProblemItem> getProblemList() {

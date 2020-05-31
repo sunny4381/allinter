@@ -2,7 +2,6 @@ package allinter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.actf.visualization.engines.lowvision.LowVisionException;
-import org.eclipse.actf.visualization.engines.lowvision.LowVisionType;
 import org.eclipse.actf.visualization.engines.lowvision.image.ImageException;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 
@@ -13,12 +12,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.google.common.io.Files.getFileExtension;
-import static java.nio.file.Files.createTempDirectory;
-import static java.nio.file.Files.walk;
 
 public class Linter implements Runnable {
     private static final ObjectMapper MAPPER = new ObjectMapper();
@@ -52,19 +48,11 @@ public class Linter implements Runnable {
             return;
         }
 
-        Path workDirectory = createTempDirectory("htmlchecker");
-        try {
-            allinter.htmlchecker.Checker checker = new allinter.htmlchecker.Checker(browser, this.url, workDirectory.toString());
-            checker.run();
+        allinter.htmlchecker.Checker checker = allinter.htmlchecker.Checker.validate(browser, this.url, this.htmlCheckerOptions);
+        checker.run();
 
-            if (this.htmlCheckerOptions.getOutputReportFilepath() != null) {
-                outputResults(checker.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
-            }
-        } finally {
-            walk(workDirectory)
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
+        if (this.htmlCheckerOptions.getOutputReportFilepath() != null) {
+            outputResults(checker.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
         }
     }
 
@@ -73,7 +61,7 @@ public class Linter implements Runnable {
             return;
         }
 
-        allinter.lowvision.Checker checker = new allinter.lowvision.Checker(browser, this.url, createLowVisionType());
+        allinter.lowvision.Checker checker = allinter.lowvision.Checker.validate(browser, this.url, this.lowVisionOptions);
         checker.run();
 
         if (this.lowVisionOptions.getOutputReportFilepath() != null) {
@@ -85,25 +73,6 @@ public class Linter implements Runnable {
         if (this.lowVisionOptions.getSourceImageFilepath() != null) {
             outputImage(checker.getSourceImage(), this.lowVisionOptions.getSourceImageFilepath());
         }
-    }
-
-    private LowVisionType createLowVisionType() throws LowVisionException {
-        LowVisionType lowVisionType = new LowVisionType();
-
-        if (this.lowVisionOptions.isLowvisionEyesight()) {
-            lowVisionType.setEyesight(this.lowVisionOptions.isLowvisionEyesight());
-            lowVisionType.setEyesightDegree(this.lowVisionOptions.getLowvisionEyesightDegree());
-        }
-        if (this.lowVisionOptions.isLowvisionCVD()) {
-            lowVisionType.setCVD(this.lowVisionOptions.isLowvisionCVD());
-            lowVisionType.setCVDType(this.lowVisionOptions.getLowvisionCVDType());
-        }
-        if (this.lowVisionOptions.isLowvisionColorFilter()) {
-            lowVisionType.setColorFilter(this.lowVisionOptions.isLowvisionColorFilter());
-            lowVisionType.setColorFilterDegree(this.lowVisionOptions.getLowvisionColorFilterDegree());
-        }
-
-        return lowVisionType;
     }
 
     private void outputResults(final List<IProblemItem> problemList, final Path outputFilepath) throws IOException {
