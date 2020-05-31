@@ -5,17 +5,32 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kklisura.cdt.protocol.commands.*;
 import com.github.kklisura.cdt.protocol.commands.Runtime;
+import com.github.kklisura.cdt.protocol.types.dom.Node;
 import com.github.kklisura.cdt.protocol.types.page.Navigate;
+import com.github.kklisura.cdt.protocol.types.runtime.CallArgument;
+import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
+import org.eclipse.actf.visualization.engines.lowvision.LowVisionException;
+import org.eclipse.actf.visualization.engines.lowvision.image.ImageException;
+import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+import static allinter.cdt.Util.callFunctionOn;
 import static allinter.cdt.Util.navigateAndWait;
 
 public class ApplicationTab {
     private static final String URL = System.getProperty("allinter.url", "http://sunny4381.github.io/allinter/index.html");
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final App app;
 
@@ -74,7 +89,11 @@ public class ApplicationTab {
             }
 
             if (url.isPresent()) {
-                openUrl(url.get());
+                try {
+                    openUrl(url.get());
+                } catch (Exception ex) {
+                    throw new RuntimeException("unable to open '" + url + "' and validate it", ex);
+                }
             }
 
             while (!this.applicationDone) {
@@ -99,13 +118,15 @@ public class ApplicationTab {
 
     private void onHostCallback(final String payload) {
         try {
-            onHostCallback(new ObjectMapper().readTree(payload));
+            onHostCallback(OBJECT_MAPPER.readTree(payload));
         } catch (JsonProcessingException ex) {
             throw new UnsupportedOperationException("malformed command", ex);
+        } catch (Exception ex) {
+            throw new RuntimeException("something happened", ex);
         }
     }
 
-    private void onHostCallback(final JsonNode command) {
+    private void onHostCallback(final JsonNode command) throws Exception {
         final String name = command.get("name").asText();
         if (name == null || name.isEmpty()) {
             return;
@@ -121,13 +142,219 @@ public class ApplicationTab {
         }
     }
 
+    abstract class BaseResponse {
+        private final String name;
+        private final String sessionId;
+
+        public BaseResponse(final String name, final String sessionId) {
+            this.name = name;
+            this.sessionId = sessionId;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getSessionId() {
+            return this.sessionId;
+        }
+
+        public void send() {
+            // convert nodeId to removeObjectId
+            final Node document = ApplicationTab.this.dom.getDocument();
+            final RemoteObject remoteObject = ApplicationTab.this.dom.resolveNode(document.getNodeId(), null, null, null);
+
+            // make arguments
+            final JsonNode json = OBJECT_MAPPER.valueToTree(this);
+            final CallArgument argument = new CallArgument();
+            argument.setValue(json);
+
+            callFunctionOn(
+                    ApplicationTab.this.devToolsService,
+                    ApplicationTab.this.runtime,
+                    remoteObject.getObjectId(),
+                    "function(arg) { return window.postMessage(arg); }",
+                    Collections.singletonList(argument)
+            );
+        }
+    }
+
+    class ValidatingResponse extends BaseResponse {
+        public static final String NAME = "allinter.validating";
+
+        public ValidatingResponse(final String sessionId) {
+            super(NAME, sessionId);
+        }
+    }
+
+    class CompletedResponse extends BaseResponse {
+        public static final String NAME = "allinter.completed";
+
+        public CompletedResponse(final String sessionId) {
+            super(NAME, sessionId);
+        }
+    }
+
+    class HtmlCheckerStartingResponse extends BaseResponse {
+        public static final String NAME = "allinter.htmlChecker.starting";
+
+        public HtmlCheckerStartingResponse(final String sessionId) {
+            super(NAME, sessionId);
+        }
+    }
+
+    class HtmlCheckerDisabledResponse extends BaseResponse {
+        public static final String NAME = "allinter.htmlChecker.disabled";
+
+        public HtmlCheckerDisabledResponse(final String sessionId) {
+            super(NAME, sessionId);
+        }
+    }
+
+    class HtmlCheckerErrorResponse extends BaseResponse {
+        public static final String NAME = "allinter.htmlChecker.error";
+        private final Exception exception;
+
+        public HtmlCheckerErrorResponse(final String sessionId, final Exception exception) {
+            super(NAME, sessionId);
+            this.exception = exception;
+        }
+
+        public String getErrorMessage() {
+            return this.exception.getMessage();
+        }
+    }
+
+    class HtmlCheckerResultResponse extends BaseResponse {
+        public static final String NAME = "allinter.htmlChecker.result";
+        private final List<IProblemItem> problems;
+
+        public HtmlCheckerResultResponse(final String sessionId, final List<IProblemItem> problems) {
+            super(NAME, sessionId);
+            this.problems = problems;
+        }
+
+        public List<IProblemItem> getProblems() {
+            return this.problems;
+        }
+    }
+
+    class LowVisionStartingResponse extends BaseResponse {
+        public static final String NAME = "allinter.lowVision.starting";
+
+        public LowVisionStartingResponse(final String sessionId) {
+            super(NAME, sessionId);
+        }
+    }
+
+    class LowVisionDisabledResponse extends BaseResponse {
+        public static final String NAME = "allinter.lowVision.disabled";
+
+        public LowVisionDisabledResponse(final String sessionId) {
+            super(NAME, sessionId);
+        }
+    }
+
+    class LowVisionErrorResponse extends BaseResponse {
+        public static final String NAME = "allinter.lowVision.error";
+        private final Exception exception;
+
+        public LowVisionErrorResponse(final String sessionId, final Exception exception) {
+            super(NAME, sessionId);
+            this.exception = exception;
+        }
+
+        public String getErrorMessage() {
+            return this.exception.getMessage();
+        }
+    }
+
+    class LowVisionResultResponse extends BaseResponse {
+        public static final String NAME = "allinter.lowVision.result";
+        private final List<IProblemItem> problems;
+        private final BufferedImage sourceImage;
+        private final BufferedImage outputImage;
+
+        public LowVisionResultResponse(final String sessionId, final List<IProblemItem> problems, final BufferedImage sourceImage, final BufferedImage outputImage) {
+            super(NAME, sessionId);
+            this.problems = problems;
+            this.sourceImage = sourceImage;
+            this.outputImage = outputImage;
+        }
+
+        public List<IProblemItem> getProblems() {
+            return this.problems;
+        }
+
+        public String getSourceImageDataUrl() throws IOException {
+            if (this.sourceImage == null) {
+                return null;
+            }
+
+            return "data:image/jpeg;base64," + base64Image(this.sourceImage);
+        }
+
+        public String getOutputImageDataUrl() throws IOException {
+            if (this.outputImage == null) {
+                return null;
+            }
+
+            return "data:image/jpeg;base64," + base64Image(this.outputImage);
+        }
+
+        public String base64Image(final BufferedImage image) throws IOException {
+            if (image == null) {
+                return null;
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpeg", baos);
+            baos.close();
+
+            Base64.Encoder encoder = Base64.getEncoder();
+            return encoder.encodeToString(baos.toByteArray());
+        }
+    }
+
     private void openUrl(final String url) {
+        new ValidatingResponse(url).send();
+
         final ChromeTab tab = this.chromeService.createTab();
         final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(tab);
-        BrowserTab browserTab = new BrowserTab(this.chromeService, tab, devTools);
+        final BrowserTab browserTab = new BrowserTab(this.chromeService, tab, devTools);
         browserTab.navigate(url);
 
-        Linter linter = new Linter(browserTab, url, this.app.getHtmlCheckerOptions(), this.app.getLowVisionOptions());
-        linter.run();
+        if (this.app.getHtmlCheckerOptions().isHtmlChecker()) {
+            new HtmlCheckerStartingResponse(url).send();
+
+            try {
+                final allinter.htmlchecker.Checker result = allinter.htmlchecker.Checker.validate(
+                        browserTab, url, this.app.getHtmlCheckerOptions());
+                new HtmlCheckerResultResponse(url, result.getProblemList()).send();
+            } catch (Exception ex) {
+                new HtmlCheckerErrorResponse(url, ex).send();
+            }
+        } else {
+            new HtmlCheckerDisabledResponse(url).send();
+        }
+
+        if (this.app.getLowVisionOptions().isLowvision()) {
+            new LowVisionStartingResponse(url).send();
+
+            try {
+                final allinter.lowvision.Checker result = allinter.lowvision.Checker.validate(
+                        browserTab, url, this.app.getLowVisionOptions());
+                new LowVisionResultResponse(
+                        url, result.getProblemList(), result.getSourceImage(), result.getLowvisionImage()).send();
+            } catch (LowVisionException | IOException | ImageException ex) {
+                new LowVisionErrorResponse(url, ex).send();
+            }
+        } else {
+            new LowVisionDisabledResponse(url).send();
+        }
+
+        new CompletedResponse(url).send();
+
+        this.chromeService.activateTab(this.tab);
     }
 }
