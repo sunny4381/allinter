@@ -170,6 +170,10 @@ public class Util {
         final Runtime runtime = service.getRuntime();
         runtime.enable();
 
+        return evaluate(service, runtime, expression);
+    }
+
+    public static Object evaluate(final ChromeDevToolsService service, final Runtime runtime, final String expression) {
         final Evaluate evaluate = runtime.evaluate(expression);
         if (evaluate == null) {
             return null;
@@ -177,6 +181,19 @@ public class Util {
 
         final Object ret = getResultAndRelease(service, evaluate.getResult());
         raiseError(service, evaluate.getExceptionDetails());
+
+        return ret;
+    }
+
+    public static Object callFunctionOn(final ChromeDevToolsService service, final Runtime runtime, final String objectId, final String expression, final List<CallArgument> arguments) {
+        final CallFunctionOn callFunctionOn = runtime.callFunctionOn(expression, objectId, arguments,
+                Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, null, null);
+        if (callFunctionOn == null) {
+            return null;
+        }
+
+        final Object ret = getResultAndRelease(service, callFunctionOn.getResult());
+        raiseError(service, callFunctionOn.getExceptionDetails());
 
         return ret;
     }
