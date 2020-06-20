@@ -139,24 +139,36 @@ public class ApplicationTab {
 
         if (name.equals("open")) {
             openUrl(command.get("payload").get("url").asText());
+            return;
+        }
+
+        if (name.equals("highlight")) {
+            final JsonNode payload = command.get("payload");
+            highlightElementOnBrowser(payload.get("tabId").asText(), payload.get("cssPath").asText());
         }
     }
 
     abstract class BaseResponse {
         private final String name;
-        private final String sessionId;
+        private final String url;
+        private final String tabId;
 
-        public BaseResponse(final String name, final String sessionId) {
+        public BaseResponse(final String name, final String url, final String tabId) {
             this.name = name;
-            this.sessionId = sessionId;
+            this.url = url;
+            this.tabId = tabId;
         }
 
         public String getName() {
             return this.name;
         }
 
-        public String getSessionId() {
-            return this.sessionId;
+        public String getUrl() {
+            return this.url;
+        }
+
+        public String getTabId() {
+            return this.tabId;
         }
 
         public void send() {
@@ -182,32 +194,32 @@ public class ApplicationTab {
     class ValidatingResponse extends BaseResponse {
         public static final String NAME = "allinter.validating";
 
-        public ValidatingResponse(final String sessionId) {
-            super(NAME, sessionId);
+        public ValidatingResponse(final String url, final String tabId) {
+            super(NAME, url, tabId);
         }
     }
 
     class CompletedResponse extends BaseResponse {
         public static final String NAME = "allinter.completed";
 
-        public CompletedResponse(final String sessionId) {
-            super(NAME, sessionId);
+        public CompletedResponse(final String url, final String tabId) {
+            super(NAME, url, tabId);
         }
     }
 
     class HtmlCheckerStartingResponse extends BaseResponse {
         public static final String NAME = "allinter.htmlChecker.starting";
 
-        public HtmlCheckerStartingResponse(final String sessionId) {
-            super(NAME, sessionId);
+        public HtmlCheckerStartingResponse(final String url, final String tabId) {
+            super(NAME, url, tabId);
         }
     }
 
     class HtmlCheckerDisabledResponse extends BaseResponse {
         public static final String NAME = "allinter.htmlChecker.disabled";
 
-        public HtmlCheckerDisabledResponse(final String sessionId) {
-            super(NAME, sessionId);
+        public HtmlCheckerDisabledResponse(final String url, final String tabId) {
+            super(NAME, url, tabId);
         }
     }
 
@@ -215,8 +227,8 @@ public class ApplicationTab {
         public static final String NAME = "allinter.htmlChecker.error";
         private final Exception exception;
 
-        public HtmlCheckerErrorResponse(final String sessionId, final Exception exception) {
-            super(NAME, sessionId);
+        public HtmlCheckerErrorResponse(final String url, final String tabId, final Exception exception) {
+            super(NAME, url, tabId);
             this.exception = exception;
         }
 
@@ -229,8 +241,8 @@ public class ApplicationTab {
         public static final String NAME = "allinter.htmlChecker.result";
         private final List<IProblemItem> problems;
 
-        public HtmlCheckerResultResponse(final String sessionId, final List<IProblemItem> problems) {
-            super(NAME, sessionId);
+        public HtmlCheckerResultResponse(final String url, final String tabId, final List<IProblemItem> problems) {
+            super(NAME, url, tabId);
             this.problems = problems;
         }
 
@@ -242,16 +254,16 @@ public class ApplicationTab {
     class LowVisionStartingResponse extends BaseResponse {
         public static final String NAME = "allinter.lowVision.starting";
 
-        public LowVisionStartingResponse(final String sessionId) {
-            super(NAME, sessionId);
+        public LowVisionStartingResponse(final String url, final String tabId) {
+            super(NAME, url, tabId);
         }
     }
 
     class LowVisionDisabledResponse extends BaseResponse {
         public static final String NAME = "allinter.lowVision.disabled";
 
-        public LowVisionDisabledResponse(final String sessionId) {
-            super(NAME, sessionId);
+        public LowVisionDisabledResponse(final String url, final String tabId) {
+            super(NAME, url, tabId);
         }
     }
 
@@ -259,8 +271,8 @@ public class ApplicationTab {
         public static final String NAME = "allinter.lowVision.error";
         private final Exception exception;
 
-        public LowVisionErrorResponse(final String sessionId, final Exception exception) {
-            super(NAME, sessionId);
+        public LowVisionErrorResponse(final String url, final String tabId, final Exception exception) {
+            super(NAME, url, tabId);
             this.exception = exception;
         }
 
@@ -275,8 +287,8 @@ public class ApplicationTab {
         private final BufferedImage sourceImage;
         private final BufferedImage outputImage;
 
-        public LowVisionResultResponse(final String sessionId, final List<IProblemItem> problems, final BufferedImage sourceImage, final BufferedImage outputImage) {
-            super(NAME, sessionId);
+        public LowVisionResultResponse(final String url, final String tabId, final List<IProblemItem> problems, final BufferedImage sourceImage, final BufferedImage outputImage) {
+            super(NAME, url, tabId);
             this.problems = problems;
             this.sourceImage = sourceImage;
             this.outputImage = outputImage;
@@ -317,44 +329,60 @@ public class ApplicationTab {
     }
 
     private void openUrl(final String url) {
-        new ValidatingResponse(url).send();
-
         final ChromeTab tab = this.chromeService.createTab();
         final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(tab);
         final BrowserTab browserTab = new BrowserTab(this.chromeService, tab, devTools);
         browserTab.navigate(url);
 
+        new ValidatingResponse(url, tab.getId()).send();
+
         if (this.app.getHtmlCheckerOptions().isHtmlChecker()) {
-            new HtmlCheckerStartingResponse(url).send();
+            new HtmlCheckerStartingResponse(url, tab.getId()).send();
 
             try {
                 final allinter.htmlchecker.Checker result = allinter.htmlchecker.Checker.validate(
                         browserTab, url, this.app.getHtmlCheckerOptions());
-                new HtmlCheckerResultResponse(url, result.getProblemList()).send();
+                new HtmlCheckerResultResponse(url, tab.getId(), result.getProblemList()).send();
             } catch (Exception ex) {
-                new HtmlCheckerErrorResponse(url, ex).send();
+                new HtmlCheckerErrorResponse(url, tab.getId(), ex).send();
             }
         } else {
-            new HtmlCheckerDisabledResponse(url).send();
+            new HtmlCheckerDisabledResponse(url, tab.getId()).send();
         }
 
         if (this.app.getLowVisionOptions().isLowvision()) {
-            new LowVisionStartingResponse(url).send();
+            new LowVisionStartingResponse(url, tab.getId()).send();
 
             try {
                 final allinter.lowvision.Checker result = allinter.lowvision.Checker.validate(
                         browserTab, url, this.app.getLowVisionOptions());
                 new LowVisionResultResponse(
-                        url, result.getProblemList(), result.getSourceImage(), result.getLowvisionImage()).send();
+                        url, tab.getId(), result.getProblemList(), result.getSourceImage(), result.getLowvisionImage()).send();
             } catch (LowVisionException | IOException | ImageException ex) {
-                new LowVisionErrorResponse(url, ex).send();
+                new LowVisionErrorResponse(url, tab.getId(), ex).send();
             }
         } else {
-            new LowVisionDisabledResponse(url).send();
+            new LowVisionDisabledResponse(url, tab.getId()).send();
         }
 
-        new CompletedResponse(url).send();
+        new CompletedResponse(url, tab.getId()).send();
 
         this.chromeService.activateTab(this.tab);
+    }
+
+    private void highlightElementOnBrowser(final String tabId, final String cssPath) {
+        if (tabId == null || tabId.isEmpty()) {
+            return;
+        }
+        if (cssPath == null || cssPath.isEmpty()) {
+            return;
+        }
+
+        Optional<ChromeTab> browserTab = this.chromeService.getTabs().stream().filter((tab) -> tab.getId().equals(tabId)).findFirst();
+        if (! browserTab.isPresent()) {
+            return;
+        }
+
+        this.chromeService.activateTab(browserTab.get());
     }
 }
