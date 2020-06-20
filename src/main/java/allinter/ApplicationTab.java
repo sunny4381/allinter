@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kklisura.cdt.protocol.commands.*;
 import com.github.kklisura.cdt.protocol.commands.Runtime;
 import com.github.kklisura.cdt.protocol.types.dom.Node;
+import com.github.kklisura.cdt.protocol.types.overlay.HighlightConfig;
 import com.github.kklisura.cdt.protocol.types.page.Navigate;
 import com.github.kklisura.cdt.protocol.types.runtime.CallArgument;
 import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
@@ -383,6 +384,25 @@ public class ApplicationTab {
             return;
         }
 
+        final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(browserTab.get());
+        final DOM dom = devTools.getDOM();
+        dom.enable();
+
+        final Integer nodeId = dom.querySelector(dom.getDocument().getNodeId(), cssPath);
+        if (nodeId == null) {
+            return;
+        }
+
         this.chromeService.activateTab(browserTab.get());
+
+        final Overlay overlay = devTools.getOverlay();
+        overlay.enable();
+
+        final HighlightConfig highlightConfig = new HighlightConfig();
+        highlightConfig.setShowInfo(true);
+        highlightConfig.setShowStyles(true);
+        highlightConfig.setShowExtensionLines(true);
+        // highlightConfig.setShowRulers(true);
+        overlay.highlightNode(highlightConfig, nodeId, null, null, null);
     }
 }
