@@ -82,8 +82,57 @@ public class NodeUtil {
         return count == 1;
     }
 
-    public static String escapeSelector(String selector) {
-        return selector.replaceAll("([:.\\[\\],=@])", "\\\\$1");
+    // from CSS.escape polyfill - https://github.com/mathiasbynens/CSS.escape/blob/master/css.escape.js
+    public static String escapeId(final String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+
+        final int length = value.length();
+        final StringBuffer result = new StringBuffer(length);
+        final char firstChar = value.charAt(0);
+        for (int i = 0; i < length; i++) {
+            final char ch = value.charAt(i);
+            if (ch == '\u0000') {
+                result.append('\uFFFD');
+                continue;
+            }
+
+            if (isControl(ch) || (i == 0 && isDigit(ch)) || (i == 1 && isDigit(ch) && firstChar == '\u002D')) {
+                result.append('\\');
+                result.append(Integer.toHexString(ch));
+                result.append(' ');
+                continue;
+            }
+
+            if (i == 0 && length == 1 && ch == '\u002D') {
+                result.append('\\');
+                result.append(ch);
+                continue;
+            }
+
+            if (ch >= '\u0080' || ch == '\u002D' || ch == '\u005F' || isDigit(ch) || isAlphabet(ch)) {
+                result.append(ch);
+                continue;
+            }
+
+            result.append('\\');
+            result.append(ch);
+        }
+
+        return result.toString();
+    }
+
+    private static boolean isControl(char ch) {
+        return ch >= '\u0001' && ch <= '\u001F';
+    }
+
+    private static boolean isDigit(char ch) {
+        return ch >= '\u0030' && ch <= '\u0039';
+    }
+
+    private static boolean isAlphabet(char ch) {
+        return (ch >= '\u0041' && ch <= '\u005A') || (ch >= '\u0061' && ch <= '\u007A');
     }
 
     public static String getCssPath(Node node) {
@@ -98,7 +147,7 @@ public class NodeUtil {
             String nodeName = node.getNodeName().toLowerCase();
             String id = getAttribute(node, "id");
             if (id != null && isUniqueId(document, id)) {
-                paths.add(0, "#" + escapeSelector(id));
+                paths.add(0, "#" + escapeId(id));
                 break;
             }
 

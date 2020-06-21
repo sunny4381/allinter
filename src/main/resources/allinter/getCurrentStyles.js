@@ -24,25 +24,6 @@
     return "/" + stack.join("/");
   };
 
-    // https://code.jquery.com/jquery-3.3.1.js
-  var escapeSelector = function(sel) { // $.escapeSelector()
-    var rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g;
-    var fcssescape = function(ch, asCodePoint) {
-      if (asCodePoint) {
-        // U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
-        if (ch === "\0") {
-          return "\uFFFD";
-        }
-        // Control characters and (dependent upon position) numbers get escaped as code points
-        return ch.slice(0, -1) + "\\" + ch.charCodeAt(ch.length - 1).toString(16) + " ";
-      }
-      // Other potentially-special ASCII characters get backslash-escaped
-      return "\\" + ch;
-    };
-
-    return (sel + '').replace(rcssescape, fcssescape);
-  };
-
   const cssPath = function(el) {
     if (!(el instanceof Element)) {
       return;
@@ -51,8 +32,8 @@
     const paths = [];
     while (el.nodeType === Node.ELEMENT_NODE) {
       let nodeName = el.nodeName.toLowerCase();
-      if (el.id && document.querySelectorAll("#" + escapeSelector(el.id)).length === 1) {
-        paths.unshift(`${nodeName}#${escapeSelector(el.id)}`);
+      if (el.id && document.querySelectorAll("#" + CSS.escape(el.id)).length === 1) {
+        paths.unshift(`${nodeName}#${CSS.escape(el.id)}`);
         break;
       }
 
