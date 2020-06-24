@@ -57,17 +57,17 @@ public class Checker {
     private static LowVisionType createLowVisionType(final LowVisionOptions lowVisionOptions) throws LowVisionException {
         LowVisionType lowVisionType = new LowVisionType();
 
-        if (lowVisionOptions.isLowvisionEyesight()) {
-            lowVisionType.setEyesight(lowVisionOptions.isLowvisionEyesight());
-            lowVisionType.setEyesightDegree(lowVisionOptions.getLowvisionEyesightDegree());
+        if (lowVisionOptions.isEyesight()) {
+            lowVisionType.setEyesight(lowVisionOptions.isEyesight());
+            lowVisionType.setEyesightDegree(lowVisionOptions.getEyesightDegree());
         }
-        if (lowVisionOptions.isLowvisionCVD()) {
-            lowVisionType.setCVD(lowVisionOptions.isLowvisionCVD());
-            lowVisionType.setCVDType(lowVisionOptions.getLowvisionCVDType());
+        if (lowVisionOptions.isCvd()) {
+            lowVisionType.setCVD(lowVisionOptions.isCvd());
+            lowVisionType.setCVDType(lowVisionOptions.getCvdType());
         }
-        if (lowVisionOptions.isLowvisionColorFilter()) {
-            lowVisionType.setColorFilter(lowVisionOptions.isLowvisionColorFilter());
-            lowVisionType.setColorFilterDegree(lowVisionOptions.getLowvisionColorFilterDegree());
+        if (lowVisionOptions.isColorFilter()) {
+            lowVisionType.setColorFilter(lowVisionOptions.isColorFilter());
+            lowVisionType.setColorFilterDegree(lowVisionOptions.getColorFilterDegree());
         }
 
         return lowVisionType;

@@ -147,29 +147,26 @@ public class ApplicationTab {
             final JsonNode payload = command.get("payload");
             highlightElementOnBrowser(payload.get("tabId").asText(), payload.get("cssPath").asText());
         }
+
+        if (name.equals("syncSettings")) {
+            syncSettings();
+        }
+
+        if (name.equals("setSettings")) {
+            final JsonNode payload = command.get("payload");
+            setSettings(payload);
+        }
     }
 
-    abstract class BaseResponse {
+    abstract class BaseMessage {
         private final String name;
-        private final String url;
-        private final String tabId;
 
-        public BaseResponse(final String name, final String url, final String tabId) {
+        public BaseMessage(final String name) {
             this.name = name;
-            this.url = url;
-            this.tabId = tabId;
         }
 
         public String getName() {
             return this.name;
-        }
-
-        public String getUrl() {
-            return this.url;
-        }
-
-        public String getTabId() {
-            return this.tabId;
         }
 
         public void send() {
@@ -192,43 +189,62 @@ public class ApplicationTab {
         }
     }
 
-    class ValidatingResponse extends BaseResponse {
+    abstract class BaseValidationResponse extends BaseMessage {
+        private final String url;
+        private final String tabId;
+
+        public BaseValidationResponse(final String name, final String url, final String tabId) {
+            super(name);
+            this.url = url;
+            this.tabId = tabId;
+        }
+
+        public String getUrl() {
+            return this.url;
+        }
+
+        public String getTabId() {
+            return this.tabId;
+        }
+    }
+
+    class ValidatingValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.validating";
 
-        public ValidatingResponse(final String url, final String tabId) {
+        public ValidatingValidationResponse(final String url, final String tabId) {
             super(NAME, url, tabId);
         }
     }
 
-    class CompletedResponse extends BaseResponse {
+    class CompletedValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.completed";
 
-        public CompletedResponse(final String url, final String tabId) {
+        public CompletedValidationResponse(final String url, final String tabId) {
             super(NAME, url, tabId);
         }
     }
 
-    class HtmlCheckerStartingResponse extends BaseResponse {
+    class HtmlCheckerStartingValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.htmlChecker.starting";
 
-        public HtmlCheckerStartingResponse(final String url, final String tabId) {
+        public HtmlCheckerStartingValidationResponse(final String url, final String tabId) {
             super(NAME, url, tabId);
         }
     }
 
-    class HtmlCheckerDisabledResponse extends BaseResponse {
+    class HtmlCheckerDisabledValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.htmlChecker.disabled";
 
-        public HtmlCheckerDisabledResponse(final String url, final String tabId) {
+        public HtmlCheckerDisabledValidationResponse(final String url, final String tabId) {
             super(NAME, url, tabId);
         }
     }
 
-    class HtmlCheckerErrorResponse extends BaseResponse {
+    class HtmlCheckerErrorValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.htmlChecker.error";
         private final Exception exception;
 
-        public HtmlCheckerErrorResponse(final String url, final String tabId, final Exception exception) {
+        public HtmlCheckerErrorValidationResponse(final String url, final String tabId, final Exception exception) {
             super(NAME, url, tabId);
             this.exception = exception;
         }
@@ -238,11 +254,11 @@ public class ApplicationTab {
         }
     }
 
-    class HtmlCheckerResultResponse extends BaseResponse {
+    class HtmlCheckerResultValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.htmlChecker.result";
         private final List<IProblemItem> problems;
 
-        public HtmlCheckerResultResponse(final String url, final String tabId, final List<IProblemItem> problems) {
+        public HtmlCheckerResultValidationResponse(final String url, final String tabId, final List<IProblemItem> problems) {
             super(NAME, url, tabId);
             this.problems = problems;
         }
@@ -252,27 +268,27 @@ public class ApplicationTab {
         }
     }
 
-    class LowVisionStartingResponse extends BaseResponse {
+    class LowVisionStartingValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.lowVision.starting";
 
-        public LowVisionStartingResponse(final String url, final String tabId) {
+        public LowVisionStartingValidationResponse(final String url, final String tabId) {
             super(NAME, url, tabId);
         }
     }
 
-    class LowVisionDisabledResponse extends BaseResponse {
+    class LowVisionDisabledValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.lowVision.disabled";
 
-        public LowVisionDisabledResponse(final String url, final String tabId) {
+        public LowVisionDisabledValidationResponse(final String url, final String tabId) {
             super(NAME, url, tabId);
         }
     }
 
-    class LowVisionErrorResponse extends BaseResponse {
+    class LowVisionErrorValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.lowVision.error";
         private final Exception exception;
 
-        public LowVisionErrorResponse(final String url, final String tabId, final Exception exception) {
+        public LowVisionErrorValidationResponse(final String url, final String tabId, final Exception exception) {
             super(NAME, url, tabId);
             this.exception = exception;
         }
@@ -282,13 +298,13 @@ public class ApplicationTab {
         }
     }
 
-    class LowVisionResultResponse extends BaseResponse {
+    class LowVisionResultValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.lowVision.result";
         private final List<IProblemItem> problems;
         private final BufferedImage sourceImage;
         private final BufferedImage outputImage;
 
-        public LowVisionResultResponse(final String url, final String tabId, final List<IProblemItem> problems, final BufferedImage sourceImage, final BufferedImage outputImage) {
+        public LowVisionResultValidationResponse(final String url, final String tabId, final List<IProblemItem> problems, final BufferedImage sourceImage, final BufferedImage outputImage) {
             super(NAME, url, tabId);
             this.problems = problems;
             this.sourceImage = sourceImage;
@@ -329,44 +345,59 @@ public class ApplicationTab {
         }
     }
 
+    class SettingsMessage extends BaseMessage {
+        public static final String NAME = "allinter.settings";
+
+        private final LowVisionOptions lowVisionOptions;
+
+        public SettingsMessage(final LowVisionOptions lowVisionOptions) {
+            super(NAME);
+            this.lowVisionOptions = lowVisionOptions;
+        }
+
+        public LowVisionOptions getLowVision() {
+            return this.lowVisionOptions;
+        }
+    }
+
     private void openUrl(final String url) {
         final ChromeTab tab = this.chromeService.createTab();
         final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(tab);
         final BrowserTab browserTab = new BrowserTab(this.chromeService, tab, devTools);
         browserTab.navigate(url);
 
-        new ValidatingResponse(url, tab.getId()).send();
+        new ValidatingValidationResponse(url, tab.getId()).send();
 
         if (this.app.getHtmlCheckerOptions().isHtmlChecker()) {
-            new HtmlCheckerStartingResponse(url, tab.getId()).send();
+            new HtmlCheckerStartingValidationResponse(url, tab.getId()).send();
 
             try {
                 final allinter.htmlchecker.Checker result = allinter.htmlchecker.Checker.validate(
                         browserTab, url, this.app.getHtmlCheckerOptions());
-                new HtmlCheckerResultResponse(url, tab.getId(), result.getProblemList()).send();
+                new HtmlCheckerResultValidationResponse(url, tab.getId(), result.getProblemList()).send();
             } catch (Exception ex) {
-                new HtmlCheckerErrorResponse(url, tab.getId(), ex).send();
+                new HtmlCheckerErrorValidationResponse(url, tab.getId(), ex).send();
             }
         } else {
-            new HtmlCheckerDisabledResponse(url, tab.getId()).send();
+            new HtmlCheckerDisabledValidationResponse(url, tab.getId()).send();
         }
 
         if (this.app.getLowVisionOptions().isLowvision()) {
-            new LowVisionStartingResponse(url, tab.getId()).send();
+            new LowVisionStartingValidationResponse(url, tab.getId()).send();
 
             try {
                 final allinter.lowvision.Checker result = allinter.lowvision.Checker.validate(
                         browserTab, url, this.app.getLowVisionOptions());
-                new LowVisionResultResponse(
+                new LowVisionResultValidationResponse(
                         url, tab.getId(), result.getProblemList(), result.getSourceImage(), result.getLowvisionImage()).send();
             } catch (LowVisionException | IOException | ImageException ex) {
-                new LowVisionErrorResponse(url, tab.getId(), ex).send();
+                new LowVisionErrorValidationResponse(url, tab.getId(), ex).send();
             }
         } else {
-            new LowVisionDisabledResponse(url, tab.getId()).send();
+            new LowVisionDisabledValidationResponse(url, tab.getId()).send();
         }
 
-        new CompletedResponse(url, tab.getId()).send();
+        new CompletedValidationResponse(url, tab.getId()).send();
 
         this.chromeService.activateTab(this.tab);
     }
@@ -404,5 +435,23 @@ public class ApplicationTab {
         highlightConfig.setShowExtensionLines(true);
         // highlightConfig.setShowRulers(true);
         overlay.highlightNode(highlightConfig, nodeId, null, null, null);
+    }
+
+    private void syncSettings() {
+        new SettingsMessage(this.app.getLowVisionOptions()).send();
+    }
+
+    private void setSettings(final JsonNode settings) {
+        final JsonNode lowVision = settings.get("lowVision");
+
+        final LowVisionOptions options = this.app.getLowVisionOptions();
+        options.setEyesight(lowVision.get("eyesight").asBoolean());
+        options.setEyesightDegree((float) lowVision.get("eyesightDegree").asDouble());
+        options.setCvd(lowVision.get("cvd").asBoolean());
+        options.setCvdTypeByName(lowVision.get("cvdType").asText());
+        options.setColorFilter(lowVision.get("colorFilter").asBoolean());
+        options.setColorFilterDegree((float) lowVision.get("colorFilterDegree").asDouble());
+
+        syncSettings();
     }
 }

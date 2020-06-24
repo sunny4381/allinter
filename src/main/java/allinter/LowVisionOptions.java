@@ -19,22 +19,22 @@ public class LowVisionOptions {
     private Path sourceImageFilepath = null;
 
     @CommandLine.Option(names = "--no-lowvision-eyesight", negatable = true)
-    private boolean lowvisionEyesight = true;
+    private boolean eyesight = true;
 
     @CommandLine.Option(names = "--lowvision-eyesight-degree")
-    private float lowvisionEyesightDegree = 0.5f;
+    private float eyesightDegree = 0.5f;
 
     @CommandLine.Option(names = "--no-lowvision-cvd", negatable = true)
-    private boolean lowvisionCVD = true;
+    private boolean cvd = true;
 
     @CommandLine.Option(names = "--lowvision-cvd-type")
-    private int lowvisionCVDType = 2;
+    private int cvdType = 2;
 
     @CommandLine.Option(names = "--no-lowvision-color-filter", negatable = true)
-    private boolean lowvisionColorFilter = true;
+    private boolean colorFilter = true;
 
     @CommandLine.Option(names = "--lowvision-color-filter-degree")
-    private float lowvisionColorFilterDegree = 0.8f;
+    private float colorFilterDegree = 0.8f;
 
     public LowVisionOptions() {
     }
@@ -71,51 +71,72 @@ public class LowVisionOptions {
         this.sourceImageFilepath = sourceImageFilepath;
     }
 
-    public boolean isLowvisionEyesight() {
-        return lowvisionEyesight;
+    public boolean isEyesight() {
+        return eyesight;
     }
 
-    public void setLowvisionEyesight(boolean lowvisionEyesight) {
-        this.lowvisionEyesight = lowvisionEyesight;
+    public void setEyesight(boolean eyesight) {
+        this.eyesight = eyesight;
     }
 
-    public float getLowvisionEyesightDegree() {
-        return lowvisionEyesightDegree;
+    public float getEyesightDegree() {
+        return eyesightDegree;
     }
 
-    public void setLowvisionEyesightDegree(float lowvisionEyesightDegree) {
-        this.lowvisionEyesightDegree = lowvisionEyesightDegree;
+    public void setEyesightDegree(float eyesightDegree) {
+        this.eyesightDegree = eyesightDegree;
     }
 
-    public boolean isLowvisionCVD() {
-        return lowvisionCVD;
+    public boolean isCvd() {
+        return cvd;
     }
 
-    public void setLowvisionCVD(boolean lowvisionCVD) {
-        this.lowvisionCVD = lowvisionCVD;
+    public void setCvd(boolean cvd) {
+        this.cvd = cvd;
     }
 
-    public int getLowvisionCVDType() {
-        return lowvisionCVDType;
+    public int getCvdType() {
+        return cvdType;
     }
 
-    public void setLowvisionCVDType(int lowvisionCVDType) {
-        this.lowvisionCVDType = lowvisionCVDType;
+    public void setCvdType(int cvdType) {
+        this.cvdType = cvdType;
     }
 
-    public boolean isLowvisionColorFilter() {
-        return lowvisionColorFilter;
+    public boolean isColorFilter() {
+        return colorFilter;
     }
 
-    public void setLowvisionColorFilter(boolean lowvisionColorFilter) {
-        this.lowvisionColorFilter = lowvisionColorFilter;
+    public void setColorFilter(boolean colorFilter) {
+        this.colorFilter = colorFilter;
     }
 
-    public float getLowvisionColorFilterDegree() {
-        return lowvisionColorFilterDegree;
+    public float getColorFilterDegree() {
+        return colorFilterDegree;
     }
 
-    public void setLowvisionColorFilterDegree(float lowvisionColorFilterDegree) {
-        this.lowvisionColorFilterDegree = lowvisionColorFilterDegree;
+    public void setColorFilterDegree(float colorFilterDegree) {
+        this.colorFilterDegree = colorFilterDegree;
+    }
+
+    public String getCvdTypeName() {
+        switch(cvdType) {
+        case 1:
+            return "protan";
+        case 3:
+            return "tritan";
+        default:
+            return "deutan";
+        }
+    }
+
+    public void setCvdTypeByName(final String cvdType) {
+        if ("protan".equalsIgnoreCase(cvdType)) {
+            this.setCvdType(1);
+        } else if ("deutan".equalsIgnoreCase(cvdType)) {
+            this.setCvdType(2);
+        } else if ("tritan".equalsIgnoreCase(cvdType)) {
+            this.setCvdType(3);
+        }
     }
 }
