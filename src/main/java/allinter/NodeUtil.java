@@ -147,7 +147,7 @@ public class NodeUtil {
             String nodeName = node.getNodeName().toLowerCase();
             String id = getAttribute(node, "id");
             if (id != null && isUniqueId(document, id)) {
-                paths.add(0, "#" + escapeId(id));
+                paths.add(0, nodeName + "#" + escapeId(id));
                 break;
             }
 
