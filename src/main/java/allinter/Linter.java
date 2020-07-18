@@ -48,11 +48,11 @@ public class Linter implements Runnable {
             return;
         }
 
-        allinter.htmlchecker.Checker checker = allinter.htmlchecker.Checker.validate(browser, this.url, this.htmlCheckerOptions);
-        checker.run();
+        final allinter.htmlchecker.Checker result =
+                allinter.htmlchecker.Checker.validate(browser, this.url, this.htmlCheckerOptions);
 
         if (this.htmlCheckerOptions.getOutputReportFilepath() != null) {
-            outputResults(checker.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
+            outputResults(result.getProblemList(), this.htmlCheckerOptions.getOutputReportFilepath());
         }
     }
 
@@ -61,17 +61,17 @@ public class Linter implements Runnable {
             return;
         }
 
-        allinter.lowvision.Checker checker = allinter.lowvision.Checker.validate(browser, this.url, this.lowVisionOptions);
-        checker.run();
+        final allinter.lowvision.Checker result =
+                allinter.lowvision.Checker.validate(browser, this.url, this.lowVisionOptions);
 
         if (this.lowVisionOptions.getOutputReportFilepath() != null) {
-            outputResults(checker.getProblemList(), this.lowVisionOptions.getOutputReportFilepath());
+            outputResults(result.getProblemList(), this.lowVisionOptions.getOutputReportFilepath());
         }
         if (this.lowVisionOptions.getOutputImageFilepath() != null) {
-            outputImage(checker.getLowvisionImage(), this.lowVisionOptions.getOutputImageFilepath());
+            outputImage(result.getLowvisionImage(), this.lowVisionOptions.getOutputImageFilepath());
         }
         if (this.lowVisionOptions.getSourceImageFilepath() != null) {
-            outputImage(checker.getSourceImage(), this.lowVisionOptions.getSourceImageFilepath());
+            outputImage(result.getSourceImage(), this.lowVisionOptions.getSourceImageFilepath());
         }
     }
 
