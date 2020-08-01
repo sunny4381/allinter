@@ -26,8 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static allinter.cdt.Util.callFunctionOn;
-import static allinter.cdt.Util.navigateAndWait;
+import static allinter.cdt.Util.*;
 
 public class ApplicationTab {
     private static final String URL = System.getProperty("allinter.url", "http://sunny4381.github.io/allinter/index.html");
@@ -418,9 +417,21 @@ public class ApplicationTab {
         final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(browserTab.get());
         final DOM dom = devTools.getDOM();
         dom.enable();
+        final Runtime runtime = devTools.getRuntime();
+        runtime.enable();
 
         final Integer nodeId = dom.querySelector(dom.getDocument().getNodeId(), cssPath);
         if (nodeId == null) {
+            return;
+        }
+
+        final RemoteObject remoteObject = dom.resolveNode(nodeId, null, null, null);
+        if (remoteObject == null) {
+            return;
+        }
+
+        final List<List<Double>> quads = getContentQuadsSafely(devTools, dom, nodeId);
+        if (quads == null || quads.isEmpty()) {
             return;
         }
 
@@ -435,6 +446,11 @@ public class ApplicationTab {
         highlightConfig.setShowExtensionLines(true);
         // highlightConfig.setShowRulers(true);
         overlay.highlightNode(highlightConfig, nodeId, null, null, null);
+
+        callFunctionOn(
+            devTools, runtime, remoteObject.getObjectId(),
+            "function() { this.scrollIntoView(); }", Collections.emptyList()
+        );
     }
 
     private void syncSettings() {

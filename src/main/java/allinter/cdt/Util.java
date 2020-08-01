@@ -13,6 +13,7 @@ import com.github.kklisura.cdt.protocol.types.page.Viewport;
 import com.github.kklisura.cdt.protocol.types.runtime.*;
 import com.github.kklisura.cdt.protocol.types.runtime.Properties;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
+import com.github.kklisura.cdt.services.exceptions.ChromeDevToolsInvocationException;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -252,6 +253,14 @@ public class Util {
         final byte[] data = takeScreenshot(service);
         try (FileOutputStream fileOutputStream = new FileOutputStream(outputFilename)) {
             fileOutputStream.write(data);
+        }
+    }
+
+    public static List<List<Double>> getContentQuadsSafely(final ChromeDevToolsService service, final DOM dom, final Integer nodeId) {
+        try {
+            return dom.getContentQuads(nodeId, null, null);
+        } catch (ChromeDevToolsInvocationException ex) {
+            return Collections.emptyList();
         }
     }
 }
