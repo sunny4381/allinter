@@ -234,19 +234,23 @@ public class Util {
         final Emulation emulation = service.getEmulation();
         emulation.setDeviceMetricsOverride(width.intValue(), height.intValue(), 1.0d, Boolean.FALSE);
 
-        Viewport viewport = new Viewport();
-        viewport.setScale(1d);
+        try {
+            final Viewport viewport = new Viewport();
+            viewport.setScale(1d);
 
-        // You can set offset with X, Y
-        viewport.setX(0d);
-        viewport.setY(0d);
+            // You can set offset with X, Y
+            viewport.setX(0d);
+            viewport.setY(0d);
 
-        // Set a width, height of a page to take screenshot at
-        viewport.setWidth(width);
-        viewport.setHeight(height);
+            // Set a width, height of a page to take screenshot at
+            viewport.setWidth(width);
+            viewport.setHeight(height);
 
-        final String base64ImageData = page.captureScreenshot(CaptureScreenshotFormat.PNG, 100, viewport, Boolean.TRUE);
-        return Base64.getDecoder().decode(base64ImageData);
+            final String base64ImageData = page.captureScreenshot(CaptureScreenshotFormat.PNG, 100, viewport, Boolean.TRUE);
+            return Base64.getDecoder().decode(base64ImageData);
+        } finally {
+            emulation.clearDeviceMetricsOverride();
+        }
     }
 
     public static void saveScreenshot(final ChromeDevToolsService service, final String outputFilename) throws IOException {
