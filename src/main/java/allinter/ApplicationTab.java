@@ -13,18 +13,13 @@ import com.github.kklisura.cdt.protocol.types.runtime.RemoteObject;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
-import org.eclipse.actf.visualization.engines.lowvision.LowVisionException;
-import org.eclipse.actf.visualization.engines.lowvision.image.ImageException;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static allinter.cdt.Util.*;
 
@@ -207,6 +202,34 @@ public class ApplicationTab {
         }
     }
 
+    abstract class BaseValidationErrorResponse extends BaseValidationResponse {
+        private final Exception exception;
+
+        public BaseValidationErrorResponse(final String name, final String url, final String tabId, final Exception exception) {
+            super(name, url, tabId);
+            this.exception = exception;
+        }
+
+        public String getErrorClass() {
+            return this.exception.getClass().getCanonicalName();
+        }
+
+        public String getErrorMessage() {
+            return this.exception.getMessage();
+        }
+
+        public String[] getErrorTraces() {
+            final StackTraceElement[] elements = this.exception.getStackTrace();
+            final String[] ret = new String[elements.length];
+
+            for (int i = 0; i < elements.length; i++) {
+                ret[i] = elements[i].toString();
+            }
+
+            return ret;
+        }
+    }
+
     class ValidatingValidationResponse extends BaseValidationResponse {
         public static final String NAME = "allinter.validating";
 
@@ -239,17 +262,11 @@ public class ApplicationTab {
         }
     }
 
-    class HtmlCheckerErrorValidationResponse extends BaseValidationResponse {
+    class HtmlCheckerErrorValidationResponse extends BaseValidationErrorResponse {
         public static final String NAME = "allinter.htmlChecker.error";
-        private final Exception exception;
 
         public HtmlCheckerErrorValidationResponse(final String url, final String tabId, final Exception exception) {
-            super(NAME, url, tabId);
-            this.exception = exception;
-        }
-
-        public String getErrorMessage() {
-            return this.exception.getMessage();
+            super(NAME, url, tabId, exception);
         }
     }
 
@@ -283,17 +300,11 @@ public class ApplicationTab {
         }
     }
 
-    class LowVisionErrorValidationResponse extends BaseValidationResponse {
+    class LowVisionErrorValidationResponse extends BaseValidationErrorResponse {
         public static final String NAME = "allinter.lowVision.error";
-        private final Exception exception;
 
         public LowVisionErrorValidationResponse(final String url, final String tabId, final Exception exception) {
-            super(NAME, url, tabId);
-            this.exception = exception;
-        }
-
-        public String getErrorMessage() {
-            return this.exception.getMessage();
+            super(NAME, url, tabId, exception);
         }
     }
 
@@ -389,7 +400,7 @@ public class ApplicationTab {
                         browserTab, url, this.app.getLowVisionOptions());
                 new LowVisionResultValidationResponse(
                         url, tab.getId(), result.getProblemList(), result.getSourceImage(), result.getLowvisionImage()).send();
-            } catch (LowVisionException | IOException | ImageException ex) {
+            } catch (Exception ex) {
                 new LowVisionErrorValidationResponse(url, tab.getId(), ex).send();
             }
         } else {
