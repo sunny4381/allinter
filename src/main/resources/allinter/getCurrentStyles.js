@@ -146,6 +146,18 @@
     baseUrl = location.href;
   }
 
+  const makeFull = function(url, baseUrl) {
+    if (! url) {
+      return null;
+    }
+
+    try {
+      return new URL(url, baseUrl).href;
+    } catch (ex) {
+      return null;
+    }
+  };
+
   const makeHash = function(el) {
     return {
       xpath: fullXPath(el),
@@ -157,7 +169,7 @@
         getComputedStyle(el),
         [ "background", "backgroundColor", "backgroundImage", "color", "fontSize", "opacity" ]
       ),
-      href: el.href ? new URL(el.href, baseUrl).href : null,
+      href: makeFull(el.href, baseUrl),
       texts: texts(el),
       descendantTextsWithBGImage: descendantTextsWithBGImage(el)
     };
