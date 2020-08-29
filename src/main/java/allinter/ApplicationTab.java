@@ -127,28 +127,39 @@ public class ApplicationTab {
             return;
         }
 
-        if (name.equals("quit")) {
-            stop();
-            return;
-        }
+        final JsonNode stateNode = command.get("state");
+        final String state = stateNode != null ? stateNode.asText() : null;
 
-        if (name.equals("open")) {
-            openUrl(command.get("payload").get("url").asText());
-            return;
-        }
+        try {
+            if (name.equals("quit")) {
+                stop();
+                return;
+            }
 
-        if (name.equals("highlight")) {
-            final JsonNode payload = command.get("payload");
-            highlightElementOnBrowser(payload.get("tabId").asText(), payload.get("cssPath").asText());
-        }
+            if (name.equals("open")) {
+                openUrl(command.get("payload").get("url").asText());
+                return;
+            }
 
-        if (name.equals("syncSettings")) {
-            syncSettings();
-        }
+            if (name.equals("highlight")) {
+                final JsonNode payload = command.get("payload");
+                highlightElementOnBrowser(payload.get("tabId").asText(), payload.get("cssPath").asText(), state);
+            }
 
-        if (name.equals("setSettings")) {
-            final JsonNode payload = command.get("payload");
-            setSettings(payload);
+            if (name.equals("syncSettings")) {
+                syncSettings();
+            }
+
+            if (name.equals("setSettings")) {
+                final JsonNode payload = command.get("payload");
+                setSettings(payload);
+            }
+        } catch (Exception ex) {
+            if (state != null && !state.isEmpty()) {
+                new StateErrorMessage(state, ex).send();
+            }
+
+            throw ex;
         }
     }
 
@@ -370,6 +381,65 @@ public class ApplicationTab {
         }
     }
 
+    class StateSuccessMessage extends BaseMessage {
+        public static final String NAME = "allinter.stateSuccess";
+        private final String state;
+
+        public StateSuccessMessage(final String state) {
+            super(NAME);
+            this.state = state;
+        }
+
+        public String getState() {
+            return this.state;
+        }
+    }
+
+    class StateErrorMessage extends BaseMessage {
+        public static final String NAME = "allinter.stateError";
+        private final String state;
+        private final String errorClass;
+        private final String errorMessage;
+        private final String[] errorTraces;
+
+        public StateErrorMessage(final String state, final Exception exception) {
+            super(NAME);
+            this.state = state;
+            this.errorClass = exception.getClass().getCanonicalName();
+            this.errorMessage = exception.getMessage();
+            final StackTraceElement[] elements = exception.getStackTrace();
+            this.errorTraces = new String[elements.length];
+
+            for (int i = 0; i < elements.length; i++) {
+                this.errorTraces[i] = elements[i].toString();
+            }
+        }
+
+        public StateErrorMessage(final String state, final String errorMessage) {
+            super(NAME);
+            this.state = state;
+            this.errorClass = null;
+            this.errorMessage = errorMessage;
+            this.errorTraces = new String[0];
+        }
+
+        public String getState() {
+            return this.state;
+        }
+
+        public String getErrorClass() {
+            return this.errorClass;
+        }
+
+        public String getErrorMessage() {
+            return this.errorMessage;
+        }
+
+        public String[] getErrorTraces() {
+            return this.errorTraces;
+        }
+    }
+
     private void openUrl(final String url) {
         final ChromeTab tab = this.chromeService.createTab();
         final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(tab);
@@ -412,17 +482,17 @@ public class ApplicationTab {
         this.chromeService.activateTab(this.tab);
     }
 
-    private void highlightElementOnBrowser(final String tabId, final String cssPath) {
+    private void highlightElementOnBrowser(final String tabId, final String cssPath, final String state) {
         if (tabId == null || tabId.isEmpty()) {
-            return;
+            throw new IllegalArgumentException("tabId is required, but it's empty");
         }
         if (cssPath == null || cssPath.isEmpty()) {
-            return;
+            throw new IllegalArgumentException("cssPath is required, but it's empty");
         }
 
         Optional<ChromeTab> browserTab = this.chromeService.getTabs().stream().filter((tab) -> tab.getId().equals(tabId)).findFirst();
         if (! browserTab.isPresent()) {
-            return;
+            throw new UnsupportedOperationException("browser tab has been closed");
         }
 
         final ChromeDevToolsService devTools = this.chromeService.createDevToolsService(browserTab.get());
@@ -433,16 +503,19 @@ public class ApplicationTab {
 
         final Integer nodeId = dom.querySelector(dom.getDocument().getNodeId(), cssPath);
         if (nodeId == null) {
+            new StateErrorMessage(state, cssPath + ": element is not found").send();
             return;
         }
 
         final RemoteObject remoteObject = dom.resolveNode(nodeId, null, null, null);
         if (remoteObject == null) {
+            new StateErrorMessage(state, cssPath + ": element is not found").send();
             return;
         }
 
         final List<List<Double>> quads = getContentQuadsSafely(devTools, dom, nodeId);
         if (quads == null || quads.isEmpty()) {
+            new StateErrorMessage(state, cssPath + ": element is not visible").send();
             return;
         }
 
@@ -462,6 +535,8 @@ public class ApplicationTab {
             devTools, runtime, remoteObject.getObjectId(),
             "function() { this.scrollIntoView(); }", Collections.emptyList()
         );
+
+        new StateSuccessMessage(state).send();
     }
 
     private void syncSettings() {
