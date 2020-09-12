@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.actf.visualization.internal.ui.report;
 
-//import org.eclipse.osgi.util.NLS;
+//import compat.NLS;
 //
 //public final class Messages extends NLS {
 //

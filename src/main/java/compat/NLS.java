@@ -11,7 +11,7 @@
  * Contributors:
  *     IBM - Initial API and implementation
  *******************************************************************************/
-package org.eclipse.osgi.util;
+package compat;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.actf.examples.adesigner.eval.html.internal;
 
-import org.eclipse.osgi.util.NLS;
+import compat.NLS;
 
 import java.nio.charset.StandardCharsets;
 
