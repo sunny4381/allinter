@@ -12,48 +12,48 @@
 package org.eclipse.actf.model.ui.editor.browser;
 
 
-/**
- * Interface to handle {@link WebBrowserNavigationEvent}.
- * 
- * @see WebBrowserNavigationEvent
- * @see DefaultWebBrowserNavigationEventListener
- */
-public interface IWebBrowserNavigationEventListener {
-
-	/**
-	 * This method is called when user selects goBack navigation
-	 * 
-	 * @param e
-	 *            event information including target {@link IWebBrowserACTF} to
-	 *            handle this event
-	 */
-	public void goBack(WebBrowserNavigationEvent e);
-
-	/**
-	 * This method is called when user selects goForward navigation
-	 * 
-	 * @param e
-	 *            event information including target {@link IWebBrowserACTF} to
-	 *            handle this event
-	 */
-	public void goForward(WebBrowserNavigationEvent e);
-
-	/**
-	 * This method is called when user selects refresh navigation
-	 * 
-	 * @param e
-	 *            event information including target {@link IWebBrowserACTF} to
-	 *            handle this event
-	 */
-	public void refresh(WebBrowserNavigationEvent e);
-
-	/**
-	 * This method is called when user selects stop navigation
-	 * 
-	 * @param e
-	 *            event information including target {@link IWebBrowserACTF} to
-	 *            handle this event
-	 */
-	public void stop(WebBrowserNavigationEvent e);
-
-}
+///**
+// * Interface to handle {@link WebBrowserNavigationEvent}.
+// *
+// * @see WebBrowserNavigationEvent
+// * @see DefaultWebBrowserNavigationEventListener
+// */
+//public interface IWebBrowserNavigationEventListener {
+//
+//	/**
+//	 * This method is called when user selects goBack navigation
+//	 *
+//	 * @param e
+//	 *            event information including target {@link IWebBrowserACTF} to
+//	 *            handle this event
+//	 */
+//	public void goBack(WebBrowserNavigationEvent e);
+//
+//	/**
+//	 * This method is called when user selects goForward navigation
+//	 *
+//	 * @param e
+//	 *            event information including target {@link IWebBrowserACTF} to
+//	 *            handle this event
+//	 */
+//	public void goForward(WebBrowserNavigationEvent e);
+//
+//	/**
+//	 * This method is called when user selects refresh navigation
+//	 *
+//	 * @param e
+//	 *            event information including target {@link IWebBrowserACTF} to
+//	 *            handle this event
+//	 */
+//	public void refresh(WebBrowserNavigationEvent e);
+//
+//	/**
+//	 * This method is called when user selects stop navigation
+//	 *
+//	 * @param e
+//	 *            event information including target {@link IWebBrowserACTF} to
+//	 *            handle this event
+//	 */
+//	public void stop(WebBrowserNavigationEvent e);
+//
+//}

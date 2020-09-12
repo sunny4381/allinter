@@ -11,59 +11,59 @@
 
 package org.eclipse.actf.model.ui.editor.actions;
 
-import org.eclipse.actf.model.ui.IModelService;
-import org.eclipse.actf.model.ui.editor.browser.DefaultWebBrowserNavigationEventListener;
-import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
-import org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener;
-import org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent;
-import org.eclipse.actf.model.ui.util.ModelServiceMessages;
-import org.eclipse.actf.model.ui.util.ModelServiceUtils;
-import org.eclipse.actf.ui.util.PlatformUIUtil;
-import org.eclipse.jface.action.Action;
-import org.eclipse.ui.ISharedImages;
-
-/**
- * Action to invoke goForward method of the current active
- * {@link IWebBrowserACTF}
- */
-public class GoForwardAction extends Action {
-	private String message = ModelServiceMessages.WebBrowser_Forward_5;
-	private String message_tp = ModelServiceMessages.WebBrowser_Forward_5_tp;
-
-	private IWebBrowserNavigationEventListener defaultListener = new DefaultWebBrowserNavigationEventListener();
-
-	/**
-	 * Constructor of the action with image icon.
-	 */
-	public GoForwardAction() {
-		this(true);
-	}
-
-	/**
-	 * Constructor of the action.
-	 * 
-	 * @param flag
-	 *            if true, set image icon to the Action
-	 */
-	public GoForwardAction(boolean flag) {
-		setText(message);
-		setToolTipText(message_tp);
-		if (flag)
-			setImageDescriptor(PlatformUIUtil
-					.getSharedImageDescriptor(ISharedImages.IMG_TOOL_FORWARD));
-	}
-
-	public void run() {
-		IModelService modelService = ModelServiceUtils.getActiveModelService();
-		if (modelService != null && modelService instanceof IWebBrowserACTF) {
-			WebBrowserNavigationEvent event = new WebBrowserNavigationEvent(
-					this, ((IWebBrowserACTF) modelService));
-			if (IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER != null) {
-				IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER
-						.goForward(event);
-			} else {
-				defaultListener.goForward(event);
-			}
-		}
-	}
-}
+//import org.eclipse.actf.model.ui.IModelService;
+//import org.eclipse.actf.model.ui.editor.browser.DefaultWebBrowserNavigationEventListener;
+//import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
+//import org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener;
+//import org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent;
+//import org.eclipse.actf.model.ui.util.ModelServiceMessages;
+//import org.eclipse.actf.model.ui.util.ModelServiceUtils;
+//import org.eclipse.actf.ui.util.PlatformUIUtil;
+//import org.eclipse.jface.action.Action;
+//import org.eclipse.ui.ISharedImages;
+//
+///**
+// * Action to invoke goForward method of the current active
+// * {@link IWebBrowserACTF}
+// */
+//public class GoForwardAction extends Action {
+//	private String message = ModelServiceMessages.WebBrowser_Forward_5;
+//	private String message_tp = ModelServiceMessages.WebBrowser_Forward_5_tp;
+//
+//	private IWebBrowserNavigationEventListener defaultListener = new DefaultWebBrowserNavigationEventListener();
+//
+//	/**
+//	 * Constructor of the action with image icon.
+//	 */
+//	public GoForwardAction() {
+//		this(true);
+//	}
+//
+//	/**
+//	 * Constructor of the action.
+//	 *
+//	 * @param flag
+//	 *            if true, set image icon to the Action
+//	 */
+//	public GoForwardAction(boolean flag) {
+//		setText(message);
+//		setToolTipText(message_tp);
+//		if (flag)
+//			setImageDescriptor(PlatformUIUtil
+//					.getSharedImageDescriptor(ISharedImages.IMG_TOOL_FORWARD));
+//	}
+//
+//	public void run() {
+//		IModelService modelService = ModelServiceUtils.getActiveModelService();
+//		if (modelService != null && modelService instanceof IWebBrowserACTF) {
+//			WebBrowserNavigationEvent event = new WebBrowserNavigationEvent(
+//					this, ((IWebBrowserACTF) modelService));
+//			if (IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER != null) {
+//				IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER
+//						.goForward(event);
+//			} else {
+//				defaultListener.goForward(event);
+//			}
+//		}
+//	}
+//}

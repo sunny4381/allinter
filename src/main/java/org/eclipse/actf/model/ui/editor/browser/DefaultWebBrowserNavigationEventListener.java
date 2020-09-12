@@ -11,62 +11,62 @@
 
 package org.eclipse.actf.model.ui.editor.browser;
 
-/**
- * Default event handler to dispatch navigation event to the current active
- * {@link IWebBrowserACTF}.
- * 
- * @see IWebBrowserACTFEventListener
- * @see WebBrowserNavigationEvent
- */
-public class DefaultWebBrowserNavigationEventListener implements
-		IWebBrowserNavigationEventListener {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#goBack(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
-	 */
-	public void goBack(WebBrowserNavigationEvent e) {
-		IWebBrowserACTF browser = e.getBrowser();
-		if (browser != null) {
-			browser.goBackward();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#goForward(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
-	 */
-	public void goForward(WebBrowserNavigationEvent e) {
-		IWebBrowserACTF browser = e.getBrowser();
-		if (browser != null) {
-			browser.goForward();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#refresh(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
-	 */
-	public void refresh(WebBrowserNavigationEvent e) {
-		IWebBrowserACTF browser = e.getBrowser();
-		if (browser != null) {
-			browser.navigateRefresh();
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#stop(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
-	 */
-	public void stop(WebBrowserNavigationEvent e) {
-		IWebBrowserACTF browser = e.getBrowser();
-		if (browser != null) {
-			browser.navigateStop();
-		}
-	}
-
-}
+///**
+// * Default event handler to dispatch navigation event to the current active
+// * {@link IWebBrowserACTF}.
+// *
+// * @see IWebBrowserACTFEventListener
+// * @see WebBrowserNavigationEvent
+// */
+//public class DefaultWebBrowserNavigationEventListener implements
+//		IWebBrowserNavigationEventListener {
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#goBack(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
+//	 */
+//	public void goBack(WebBrowserNavigationEvent e) {
+//		IWebBrowserACTF browser = e.getBrowser();
+//		if (browser != null) {
+//			browser.goBackward();
+//		}
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#goForward(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
+//	 */
+//	public void goForward(WebBrowserNavigationEvent e) {
+//		IWebBrowserACTF browser = e.getBrowser();
+//		if (browser != null) {
+//			browser.goForward();
+//		}
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#refresh(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
+//	 */
+//	public void refresh(WebBrowserNavigationEvent e) {
+//		IWebBrowserACTF browser = e.getBrowser();
+//		if (browser != null) {
+//			browser.navigateRefresh();
+//		}
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener#stop(org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent)
+//	 */
+//	public void stop(WebBrowserNavigationEvent e) {
+//		IWebBrowserACTF browser = e.getBrowser();
+//		if (browser != null) {
+//			browser.navigateStop();
+//		}
+//	}
+//
+//}

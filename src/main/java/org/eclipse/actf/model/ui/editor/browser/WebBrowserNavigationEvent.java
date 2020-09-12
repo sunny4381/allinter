@@ -11,37 +11,37 @@
 
 package org.eclipse.actf.model.ui.editor.browser;
 
-import java.util.EventObject;
-
-/**
- * A WebBrowserNavigationEvent includes target {@link IWebBrowserACTF} to handle
- * user navigation
- */
-public class WebBrowserNavigationEvent extends EventObject {
-
-	private static final long serialVersionUID = 4659419119012003840L;
-
-	private IWebBrowserACTF browser;
-
-	/**
-	 * Constructor of the class
-	 * 
-	 * @param source
-	 *            event source
-	 * @param browser
-	 *            target {@link IWebBrowserACTF}
-	 */
-	public WebBrowserNavigationEvent(Object source, IWebBrowserACTF browser) {
-		super(source);
-		this.browser = browser;
-	}
-
-	/**
-	 * Get target {@link IWebBrowserACTF}
-	 * @return {@link IWebBrowserACTF}
-	 */
-	public IWebBrowserACTF getBrowser() {
-		return browser;
-	}
-
-}
+//import java.util.EventObject;
+//
+///**
+// * A WebBrowserNavigationEvent includes target {@link IWebBrowserACTF} to handle
+// * user navigation
+// */
+//public class WebBrowserNavigationEvent extends EventObject {
+//
+//	private static final long serialVersionUID = 4659419119012003840L;
+//
+//	private IWebBrowserACTF browser;
+//
+//	/**
+//	 * Constructor of the class
+//	 *
+//	 * @param source
+//	 *            event source
+//	 * @param browser
+//	 *            target {@link IWebBrowserACTF}
+//	 */
+//	public WebBrowserNavigationEvent(Object source, IWebBrowserACTF browser) {
+//		super(source);
+//		this.browser = browser;
+//	}
+//
+//	/**
+//	 * Get target {@link IWebBrowserACTF}
+//	 * @return {@link IWebBrowserACTF}
+//	 */
+//	public IWebBrowserACTF getBrowser() {
+//		return browser;
+//	}
+//
+//}

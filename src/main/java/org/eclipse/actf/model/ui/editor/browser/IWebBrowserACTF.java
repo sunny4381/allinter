@@ -38,13 +38,13 @@ public interface IWebBrowserACTF extends IModelService {
 
 	public static final int READYSTATE_COMPLETE = 4;
 
-	/**
-	 * To set {@link IWebBrowserACTFEventListener} to override
-	 * {@link DefaultWebBrowserNavigationEventListener}
-	 */
-	public class WebBrowserNavigationEventListnerHolder {
-		public static IWebBrowserNavigationEventListener LISTENER = null;
-	}
+//	/**
+//	 * To set {@link IWebBrowserACTFEventListener} to override
+//	 * {@link DefaultWebBrowserNavigationEventListener}
+//	 */
+//	public class WebBrowserNavigationEventListnerHolder {
+//		public static IWebBrowserNavigationEventListener LISTENER = null;
+//	}
 
 	/**
 	 * Focus address text area

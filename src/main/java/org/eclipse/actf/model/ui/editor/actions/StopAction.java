@@ -11,57 +11,57 @@
 
 package org.eclipse.actf.model.ui.editor.actions;
 
-import org.eclipse.actf.model.internal.ui.ModelUIPlugin;
-import org.eclipse.actf.model.ui.IModelService;
-import org.eclipse.actf.model.ui.editor.browser.DefaultWebBrowserNavigationEventListener;
-import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
-import org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener;
-import org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent;
-import org.eclipse.actf.model.ui.util.ModelServiceMessages;
-import org.eclipse.actf.model.ui.util.ModelServiceUtils;
-import org.eclipse.jface.action.Action;
-
-/**
- * Action to invoke stop method of the current active {@link IWebBrowserACTF}
- */
-public class StopAction extends Action {
-	private String message = ModelServiceMessages.WebBrowser_Stop;
-	private String message_tp = ModelServiceMessages.WebBrowser_Stop_tp;
-
-	private IWebBrowserNavigationEventListener defaultListener = new DefaultWebBrowserNavigationEventListener();
-
-	/**
-	 * Constructor of the action with image icon.
-	 */
-	public StopAction() {
-		this(true);
-	}
-
-	/**
-	 * Constructor of the action.
-	 * 
-	 * @param flag
-	 *            if true, set image icon to the Action
-	 */
-	public StopAction(boolean flag) {
-		setText(message);
-		setToolTipText(message_tp);
-		if (flag)
-			setImageDescriptor(ModelUIPlugin
-					.getImageDescriptor("icons/toolbar/stop.png")); //$NON-NLS-1$
-	}
-
-	public void run() {
-		IModelService modelService = ModelServiceUtils.getActiveModelService();
-		if (modelService != null && modelService instanceof IWebBrowserACTF) {
-			WebBrowserNavigationEvent event = new WebBrowserNavigationEvent(
-					this, ((IWebBrowserACTF) modelService));
-			if (IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER != null) {
-				IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER
-						.stop(event);
-			} else {
-				defaultListener.stop(event);
-			}
-		}
-	}
-}
+//import org.eclipse.actf.model.internal.ui.ModelUIPlugin;
+//import org.eclipse.actf.model.ui.IModelService;
+//import org.eclipse.actf.model.ui.editor.browser.DefaultWebBrowserNavigationEventListener;
+//import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
+//import org.eclipse.actf.model.ui.editor.browser.IWebBrowserNavigationEventListener;
+//import org.eclipse.actf.model.ui.editor.browser.WebBrowserNavigationEvent;
+//import org.eclipse.actf.model.ui.util.ModelServiceMessages;
+//import org.eclipse.actf.model.ui.util.ModelServiceUtils;
+//import org.eclipse.jface.action.Action;
+//
+///**
+// * Action to invoke stop method of the current active {@link IWebBrowserACTF}
+// */
+//public class StopAction extends Action {
+//	private String message = ModelServiceMessages.WebBrowser_Stop;
+//	private String message_tp = ModelServiceMessages.WebBrowser_Stop_tp;
+//
+//	private IWebBrowserNavigationEventListener defaultListener = new DefaultWebBrowserNavigationEventListener();
+//
+//	/**
+//	 * Constructor of the action with image icon.
+//	 */
+//	public StopAction() {
+//		this(true);
+//	}
+//
+//	/**
+//	 * Constructor of the action.
+//	 *
+//	 * @param flag
+//	 *            if true, set image icon to the Action
+//	 */
+//	public StopAction(boolean flag) {
+//		setText(message);
+//		setToolTipText(message_tp);
+//		if (flag)
+//			setImageDescriptor(ModelUIPlugin
+//					.getImageDescriptor("icons/toolbar/stop.png")); //$NON-NLS-1$
+//	}
+//
+//	public void run() {
+//		IModelService modelService = ModelServiceUtils.getActiveModelService();
+//		if (modelService != null && modelService instanceof IWebBrowserACTF) {
+//			WebBrowserNavigationEvent event = new WebBrowserNavigationEvent(
+//					this, ((IWebBrowserACTF) modelService));
+//			if (IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER != null) {
+//				IWebBrowserACTF.WebBrowserNavigationEventListnerHolder.LISTENER
+//						.stop(event);
+//			} else {
+//				defaultListener.stop(event);
+//			}
+//		}
+//	}
+//}

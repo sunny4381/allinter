@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.actf.mediator;
 
-import org.eclipse.ui.IViewPart;
-
-/**
- * The interface for report viewers in ACTF. The implementation of the
- * IACTFReportViewer will receive the status change in ACTF as a MediatorEvent.
- * 
- */
-public interface IACTFReportViewer extends IViewPart, IMediatorEventListener {
-
-}
+//import org.eclipse.ui.IViewPart;
+//
+///**
+// * The interface for report viewers in ACTF. The implementation of the
+// * IACTFReportViewer will receive the status change in ACTF as a MediatorEvent.
+// *
+// */
+//public interface IACTFReportViewer extends IViewPart, IMediatorEventListener {
+//
+//}
