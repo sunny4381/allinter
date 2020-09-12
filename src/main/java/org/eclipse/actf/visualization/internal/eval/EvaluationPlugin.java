@@ -11,14 +11,13 @@
 package org.eclipse.actf.visualization.internal.eval;
 
 import org.eclipse.actf.visualization.eval.EvaluationUtil;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class EvaluationPlugin extends AbstractUIPlugin {
+public class EvaluationPlugin extends Plugin {
 
 	// The shared instance
 	private static EvaluationPlugin plugin;
@@ -56,14 +55,14 @@ public class EvaluationPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
-    /**
-     * Returns an image descriptor for the image file at the given
-     * plug-in relative path.
-     *
-     * @param path the path
-     * @return the image descriptor
-     */
-    public static ImageDescriptor getImageDescriptor(String path) {
-        return AbstractUIPlugin.imageDescriptorFromPlugin(EvaluationUtil.PLUGIN_ID, path);
-    }
+//    /**
+//     * Returns an image descriptor for the image file at the given
+//     * plug-in relative path.
+//     *
+//     * @param path the path
+//     * @return the image descriptor
+//     */
+//    public static ImageDescriptor getImageDescriptor(String path) {
+//        return AbstractUIPlugin.imageDescriptorFromPlugin(EvaluationUtil.PLUGIN_ID, path);
+//    }
 }

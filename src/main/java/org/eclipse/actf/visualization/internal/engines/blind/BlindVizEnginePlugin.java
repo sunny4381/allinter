@@ -22,14 +22,14 @@ import org.eclipse.actf.visualization.engines.blind.TextChecker;
 import org.eclipse.actf.visualization.engines.blind.ui.preferences.IBlindPreferenceConstants;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class BlindVizEnginePlugin extends AbstractUIPlugin {
+public class BlindVizEnginePlugin extends Plugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.engines.blind"; //$NON-NLS-1$
@@ -53,21 +53,21 @@ public class BlindVizEnginePlugin extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		if (!getPreferenceStore().getBoolean(
-				IBlindPreferenceConstants.NOT_FIRST_TIME)) {
+//		if (!getPreferenceStore().getBoolean(
+//				IBlindPreferenceConstants.NOT_FIRST_TIME)) {
 			TextChecker.getInstance();
-		}
+//		}
 
 		createTempDirectory();
-		String tmpS;
-		if (tmpDir != null) {
-			tmpS = tmpDir.getAbsolutePath() + File.separator + "img"; //$NON-NLS-1$
-			if (FileUtils.isAvailableDirectory(tmpS)) {
-				String tmpS2 = tmpS + File.separator;
-				BlindVizResourceUtil.saveImages(tmpS2);
-				BlindVizResourceUtil.saveScripts(tmpS2);
-			}
-		}
+//		String tmpS;
+//		if (tmpDir != null) {
+//			tmpS = tmpDir.getAbsolutePath() + File.separator + "img"; //$NON-NLS-1$
+//			if (FileUtils.isAvailableDirectory(tmpS)) {
+//				String tmpS2 = tmpS + File.separator;
+//				BlindVizResourceUtil.saveImages(tmpS2);
+//				BlindVizResourceUtil.saveScripts(tmpS2);
+//			}
+//		}
 
 	}
 
@@ -77,8 +77,8 @@ public class BlindVizEnginePlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		getPreferenceStore().setValue(
-				IBlindPreferenceConstants.NOT_FIRST_TIME, true);
+//		getPreferenceStore().setValue(
+//				IBlindPreferenceConstants.NOT_FIRST_TIME, true);
 		plugin = null;
 		super.stop(context);
 		deleteFiles(tmpDir);

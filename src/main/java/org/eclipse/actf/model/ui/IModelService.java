@@ -13,7 +13,6 @@ package org.eclipse.actf.model.ui;
 
 import java.io.File;
 
-import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -181,12 +180,12 @@ public interface IModelService {
 	 */
 	ImagePositionInfo[] getAllImagePosition();
 
-	/**
-	 * Get {@link IModelServiceHolder} who owns this implementation
-	 * 
-	 * @return {@link IModelServiceHolder}
-	 */
-	IModelServiceHolder getModelServiceHolder();
+//	/**
+//	 * Get {@link IModelServiceHolder} who owns this implementation
+//	 *
+//	 * @return {@link IModelServiceHolder}
+//	 */
+//	IModelServiceHolder getModelServiceHolder();
 
 	/**
 	 * Get corresponding {@link Object} with the specified key. This method is

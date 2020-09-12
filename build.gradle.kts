@@ -28,9 +28,6 @@ dependencies {
     implementation("info.picocli:picocli:4.2.0")
     // eclipse
     implementation("org.eclipse.platform:org.eclipse.core.runtime:3.17.100")
-    implementation("org.eclipse.platform:org.eclipse.ui:3.116.0") {
-        exclude(group = "org.eclipse.platform", module = "org.eclipse.swt")
-    }
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")

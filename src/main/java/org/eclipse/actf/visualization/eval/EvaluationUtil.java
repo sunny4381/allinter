@@ -20,10 +20,10 @@ import org.eclipse.actf.visualization.internal.eval.EvaluationPlugin;
  */
 public class EvaluationUtil {
 
-	/**
-	 * The plug-in ID
-	 */
-	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.eval"; //$NON-NLS-1$
+//	/**
+//	 * The plug-in ID
+//	 */
+//	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.eval"; //$NON-NLS-1$
 
 	/**
 	 * Check user selection of target DOM (original source or live)

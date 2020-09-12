@@ -11,8 +11,6 @@
 package org.eclipse.actf.model.ui.editor.browser;
 
 import org.eclipse.actf.model.ui.IModelService;
-import org.eclipse.actf.model.ui.IModelServiceHolder;
-import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Document;
 
 /**

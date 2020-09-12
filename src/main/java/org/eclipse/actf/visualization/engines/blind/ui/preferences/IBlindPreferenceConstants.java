@@ -15,7 +15,7 @@ package org.eclipse.actf.visualization.engines.blind.ui.preferences;
 @SuppressWarnings("nls")
 public interface IBlindPreferenceConstants {
     
-    String NOT_FIRST_TIME = "blindViz.not_first_time";
+//    String NOT_FIRST_TIME = "blindViz.not_first_time";
     
     // BLIND Properties
     String BLIND_LAYOUT_MODE = "layout";

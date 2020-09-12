@@ -1,7 +1,5 @@
 package compat;
 
-import org.eclipse.jface.resource.DataFormatException;
-
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -17,24 +15,17 @@ public class StringConverter {
      *
      * @param value the value to be converted
      * @return the value as a point
-     * @exception DataFormatException if the given value does not represent a point
+     * @exception NumberFormatException if the given value does not represent a point
      */
-    public static Point asPoint(String value) throws DataFormatException {
+    public static Point asPoint(String value) throws NumberFormatException {
         if (value == null) {
-            throw new DataFormatException(
-                    "Null doesn't represent a valid point"); //$NON-NLS-1$
+            throw new IllegalArgumentException("Null doesn't represent a valid point"); //$NON-NLS-1$
         }
         StringTokenizer stok = new StringTokenizer(value, ","); //$NON-NLS-1$
         String x = stok.nextToken();
         String y = stok.nextToken();
-        int xval = 0, yval = 0;
-        try {
-            xval = Integer.parseInt(x);
-            yval = Integer.parseInt(y);
-        } catch (NumberFormatException e) {
-            throw new DataFormatException(e.getMessage());
-        }
-        return new Point(xval, yval);
+
+        return new Point(Integer.parseInt(x), Integer.parseInt(y));
     }
 
     /**
@@ -49,7 +40,7 @@ public class StringConverter {
     public static Point asPoint(String value, Point dflt) {
         try {
             return asPoint(value);
-        } catch (DataFormatException e) {
+        } catch (IllegalArgumentException e) {
             return dflt;
         }
     }
@@ -66,13 +57,13 @@ public class StringConverter {
      *
      * @param value the value to be converted
      * @return the value as a rectangle
-     * @exception DataFormatException if the given value does not represent a
+     * @exception NumberFormatException if the given value does not represent a
      *                                rectangle
      */
     public static Rectangle asRectangle(String value)
-            throws DataFormatException {
+            throws NumberFormatException {
         if (value == null) {
-            throw new DataFormatException(
+            throw new IllegalArgumentException(
                     "Null doesn't represent a valid rectangle"); //$NON-NLS-1$
         }
         StringTokenizer stok = new StringTokenizer(value, ","); //$NON-NLS-1$
@@ -81,14 +72,12 @@ public class StringConverter {
         String width = stok.nextToken();
         String height = stok.nextToken();
         int xval = 0, yval = 0, wval = 0, hval = 0;
-        try {
-            xval = Integer.parseInt(x);
-            yval = Integer.parseInt(y);
-            wval = Integer.parseInt(width);
-            hval = Integer.parseInt(height);
-        } catch (NumberFormatException e) {
-            throw new DataFormatException(e.getMessage());
-        }
+
+        xval = Integer.parseInt(x);
+        yval = Integer.parseInt(y);
+        wval = Integer.parseInt(width);
+        hval = Integer.parseInt(height);
+
         return new Rectangle(xval, yval, wval, hval);
     }
 
@@ -104,7 +93,7 @@ public class StringConverter {
     public static Rectangle asRectangle(String value, Rectangle dflt) {
         try {
             return asRectangle(value);
-        } catch (DataFormatException e) {
+        } catch (IllegalArgumentException e) {
             return dflt;
         }
     }
@@ -121,12 +110,12 @@ public class StringConverter {
      *
      * @param value the value to be converted
      * @return the value as an RGB color value
-     * @exception DataFormatException if the given value does not represent an RGB
+     * @exception IllegalArgumentException if the given value does not represent an RGB
      *                                color value
      */
-    public static RGB asRGB(String value) throws DataFormatException {
+    public static RGB asRGB(String value) throws IllegalArgumentException {
         if (value == null) {
-            throw new DataFormatException("Null doesn't represent a valid RGB"); //$NON-NLS-1$
+            throw new IllegalArgumentException("Null doesn't represent a valid RGB"); //$NON-NLS-1$
         }
         StringTokenizer stok = new StringTokenizer(value, ","); //$NON-NLS-1$
 
@@ -135,16 +124,14 @@ public class StringConverter {
             String green = stok.nextToken().trim();
             String blue = stok.nextToken().trim();
             int rval = 0, gval = 0, bval = 0;
-            try {
-                rval = Integer.parseInt(red);
-                gval = Integer.parseInt(green);
-                bval = Integer.parseInt(blue);
-            } catch (NumberFormatException e) {
-                throw new DataFormatException(e.getMessage());
-            }
+
+            rval = Integer.parseInt(red);
+            gval = Integer.parseInt(green);
+            bval = Integer.parseInt(blue);
+
             return new RGB(rval, gval, bval);
-        } catch (IllegalArgumentException | NoSuchElementException e) {
-            throw new DataFormatException(e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -160,7 +147,7 @@ public class StringConverter {
     public static RGB asRGB(String value, RGB dflt) {
         try {
             return asRGB(value);
-        } catch (DataFormatException e) {
+        } catch (IllegalArgumentException e) {
             return dflt;
         }
     }

@@ -15,8 +15,8 @@ package org.eclipse.actf.visualization.eval.preferences;
 @SuppressWarnings("nls")
 public interface ICheckerPreferenceConstants {
     
-    String GUIDELINE_PREFIX = "GUIDELINE_";
+//    String GUIDELINE_PREFIX = "GUIDELINE_";
 
-    String METRICS_PREFIX = "METRICS_";
+//    String METRICS_PREFIX = "METRICS_";
     
 }

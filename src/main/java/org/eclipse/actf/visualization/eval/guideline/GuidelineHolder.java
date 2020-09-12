@@ -39,7 +39,6 @@ import org.eclipse.actf.visualization.internal.eval.guideline.GuidelineDataCompa
 import org.eclipse.actf.visualization.internal.eval.guideline.GuidelineItemReader;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.osgi.framework.Bundle;
 
 /**
@@ -53,7 +52,7 @@ public class GuidelineHolder {
 
 //	private IPreferenceStore preferenceStore = EvaluationPlugin.getDefault()
 //			.getPreferenceStore();
-	private IPreferenceStore preferenceStore = null;
+//	private IPreferenceStore preferenceStore = null;
 
 	private ICheckerInfoProvider[] checkerInfos = CheckerExtension
 			.getCheckerInfoProviders();
@@ -328,7 +327,7 @@ public class GuidelineHolder {
 			}
 		}
 
-		storeDisabledGuideline();
+//		storeDisabledGuideline();
 		resetMatchedItems();
 		notifyGuidelineSelectionChange();
 		return true;
@@ -372,7 +371,7 @@ public class GuidelineHolder {
 				}
 			}
 
-			storeDisabledGuideline();
+//			storeDisabledGuideline();
 			resetMatchedItems();
 
 			notifyGuidelineSelectionChange();
@@ -428,7 +427,7 @@ public class GuidelineHolder {
 			return false;
 		}
 		this.enabledMetrics = enabledMetrics;
-		storeDisabledMetrics();
+//		storeDisabledMetrics();
 		resetMatchedItems();
 		notifyGuidelineSelectionChange();
 		return true;
@@ -454,7 +453,7 @@ public class GuidelineHolder {
 				}
 			}
 
-			storeDisabledMetrics();
+//			storeDisabledMetrics();
 			resetMatchedItems();
 			notifyGuidelineSelectionChange();
 		}
@@ -529,27 +528,27 @@ public class GuidelineHolder {
 		}
 	}
 
-	private void storeDisabledGuideline() {
-		for (int i = 0; i < guidelineArray.length; i++) {
-			IGuidelineData data = guidelineArray[i];
-			String[] subLevels = data.getLevels();
-			if (subLevels.length == 0) {
-				preferenceStore.setValue(
-						ICheckerPreferenceConstants.GUIDELINE_PREFIX
-								+ data.getGuidelineName() + UNDERSCORE,
-						!data.isEnabled());
-			} else {
-				for (int j = 0; j < subLevels.length; j++) {
-					IGuidelineData subData = data
-							.getSubLevelData(subLevels[j]);
-					preferenceStore.setValue(
-							ICheckerPreferenceConstants.GUIDELINE_PREFIX
-									+ subData.getGuidelineName()
-									+ UNDERSCORE + j, !subData.isEnabled());
-				}
-			}
-		}
-	}
+//	private void storeDisabledGuideline() {
+//		for (int i = 0; i < guidelineArray.length; i++) {
+//			IGuidelineData data = guidelineArray[i];
+//			String[] subLevels = data.getLevels();
+//			if (subLevels.length == 0) {
+//				preferenceStore.setValue(
+//						ICheckerPreferenceConstants.GUIDELINE_PREFIX
+//								+ data.getGuidelineName() + UNDERSCORE,
+//						!data.isEnabled());
+//			} else {
+//				for (int j = 0; j < subLevels.length; j++) {
+//					IGuidelineData subData = data
+//							.getSubLevelData(subLevels[j]);
+//					preferenceStore.setValue(
+//							ICheckerPreferenceConstants.GUIDELINE_PREFIX
+//									+ subData.getGuidelineName()
+//									+ UNDERSCORE + j, !subData.isEnabled());
+//				}
+//			}
+//		}
+//	}
 
 	private void initDisabledMetrics() {
 //		for (int j = 0; j < metricsNames.length; j++) {
@@ -571,19 +570,19 @@ public class GuidelineHolder {
 		}
 	}
 
-	private void storeDisabledMetrics() {
-		for (int i = 0; i < enabledMetrics.length; i++) {
-			if (!enabledMetrics[i]) {
-				preferenceStore.setValue(
-						ICheckerPreferenceConstants.METRICS_PREFIX
-								+ metricsNames[i], true);
-			} else {
-				preferenceStore.setValue(
-						ICheckerPreferenceConstants.METRICS_PREFIX
-								+ metricsNames[i], false);
-			}
-		}
-	}
+//	private void storeDisabledMetrics() {
+//		for (int i = 0; i < enabledMetrics.length; i++) {
+//			if (!enabledMetrics[i]) {
+//				preferenceStore.setValue(
+//						ICheckerPreferenceConstants.METRICS_PREFIX
+//								+ metricsNames[i], true);
+//			} else {
+//				preferenceStore.setValue(
+//						ICheckerPreferenceConstants.METRICS_PREFIX
+//								+ metricsNames[i], false);
+//			}
+//		}
+//	}
 
 	/**
 	 * Check if the target {@link IEvaluationItem} is enabled in current

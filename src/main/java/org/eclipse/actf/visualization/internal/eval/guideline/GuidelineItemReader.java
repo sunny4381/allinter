@@ -23,7 +23,6 @@ import org.eclipse.actf.visualization.eval.IGuidelineItem;
 import org.eclipse.actf.visualization.eval.ITechniquesItem;
 import org.eclipse.actf.visualization.internal.eval.GuidelineItemImpl;
 import org.eclipse.actf.visualization.internal.eval.TechniquesItemImpl;
-import org.eclipse.ui.PlatformUI;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -178,14 +177,15 @@ public class GuidelineItemReader extends DefaultHandler {
 
 	private String getLocalGuidelineURL(String url) {
 		if (url.startsWith("${")) {
-			int bundleNameEnd = url.indexOf("}");
-			if (bundleNameEnd == -1)
-				return null;
-			String bundleName = url.substring(2, bundleNameEnd);
-			String href = "/" + bundleName + "/"
-					+ url.substring(bundleNameEnd + 2);
-			return PlatformUI.getWorkbench().getHelpSystem()
-					.resolve(href, true).toString();
+//			int bundleNameEnd = url.indexOf("}");
+//			if (bundleNameEnd == -1)
+//				return null;
+//			String bundleName = url.substring(2, bundleNameEnd);
+//			String href = "/" + bundleName + "/"
+//					+ url.substring(bundleNameEnd + 2);
+//			return PlatformUI.getWorkbench().getHelpSystem()
+//					.resolve(href, true).toString();
+			throw new UnsupportedOperationException(url + ": interpolation is not supported");
 		}
 		return null;
 	}

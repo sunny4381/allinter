@@ -531,10 +531,10 @@ public class BrowserTab implements IWebBrowserACTF, IModelService {
         return rect;
     }
 
-    @Override
-    public IModelServiceHolder getModelServiceHolder() {
-        throw new UnsupportedOperationException("not implemented");
-    }
+//    @Override
+//    public IModelServiceHolder getModelServiceHolder() {
+//        throw new UnsupportedOperationException("not implemented");
+//    }
 
     @Override
     public Object getAttribute(String key) {

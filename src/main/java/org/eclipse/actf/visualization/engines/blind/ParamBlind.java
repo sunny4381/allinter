@@ -14,7 +14,6 @@ import compat.PreferenceConverter;
 import compat.RGB;
 import compat.StringConverter;
 import org.eclipse.actf.visualization.engines.blind.ui.preferences.IBlindPreferenceConstants;
-import org.eclipse.jface.preference.IPreferenceStore;
 import allinter.ResourceBundleControlHolder;
 
 import java.util.ResourceBundle;
@@ -109,7 +108,7 @@ public class ParamBlind {
 	}
 
 	private static RGB getColor(String value) {
-		if (value == null || IPreferenceStore.STRING_DEFAULT_DEFAULT.equals(value)) {
+		if (value == null || value.isEmpty()) {
 			return PreferenceConverter.COLOR_DEFAULT_DEFAULT;
 		}
 

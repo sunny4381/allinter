@@ -13,15 +13,14 @@ package org.eclipse.actf.visualization.lowvision;
 import java.io.File;
 
 import org.eclipse.actf.util.FileUtils;
-import org.eclipse.actf.visualization.lowvision.util.LowVisionVizResourceUtil;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class LowVisionVizPlugin extends AbstractUIPlugin {
+public class LowVisionVizPlugin extends Plugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.lowvision"; //$NON-NLS-1$
@@ -38,24 +37,24 @@ public class LowVisionVizPlugin extends AbstractUIPlugin {
 		plugin = this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-
-		createTempDirectory();
-		String tmpS;
-		if (tmpDir != null) {
-			tmpS = tmpDir.getAbsolutePath() + File.separator + "img"; //$NON-NLS-1$
-			if (FileUtils.isAvailableDirectory(tmpS)) {
-				String tmpS2 = tmpS + File.separator;
-				LowVisionVizResourceUtil.saveImages(tmpS2);
-			}
-		}
-	}
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+//	 */
+//	public void start(BundleContext context) throws Exception {
+//		super.start(context);
+//
+//		createTempDirectory();
+//		String tmpS;
+//		if (tmpDir != null) {
+//			tmpS = tmpDir.getAbsolutePath() + File.separator + "img"; //$NON-NLS-1$
+//			if (FileUtils.isAvailableDirectory(tmpS)) {
+//				String tmpS2 = tmpS + File.separator;
+//				LowVisionVizResourceUtil.saveImages(tmpS2);
+//			}
+//		}
+//	}
 
 	/*
 	 * (non-Javadoc)
