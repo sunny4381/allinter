@@ -12,7 +12,7 @@ package org.eclipse.actf.model.ui.editor.browser;
 
 import java.net.URL;
 
-import org.eclipse.swt.graphics.Rectangle;
+import compat.Rectangle;
 import org.w3c.dom.Element;
 
 /**

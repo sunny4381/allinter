@@ -19,6 +19,7 @@ import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
 import com.google.common.io.Resources;
+import compat.RGB;
 import org.eclipse.actf.model.dom.html.HTMLParserFactory;
 import org.eclipse.actf.model.dom.html.IHTMLParser;
 import org.eclipse.actf.model.dom.html.ParseException;
@@ -26,8 +27,6 @@ import org.eclipse.actf.model.ui.*;
 import org.eclipse.actf.model.ui.editor.browser.ICurrentStyles;
 import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
 import org.eclipse.actf.model.ui.editor.browser.IWebBrowserStyleInfo;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Composite;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -393,10 +392,10 @@ public class BrowserTab implements IWebBrowserACTF, IModelService {
         return new DocumentImpl(this.devToolsService, this.styleSheetList);
     }
 
-    @Override
-    public Composite getTargetComposite() {
-        throw new UnsupportedOperationException("not implemented");
-    }
+//    @Override
+//    public Composite getTargetComposite() {
+//        throw new UnsupportedOperationException("not implemented");
+//    }
 
     public String getPageSource() {
         final Frame frame = this.page.getFrameTree().getFrame();

@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-import org.eclipse.actf.ui.util.HighlightStringListener;
 import org.eclipse.actf.visualization.IVisualizationConst;
 import org.eclipse.actf.visualization.eval.guideline.GuidelineHolder;
 import org.eclipse.actf.visualization.eval.html.statistics.PageData;
@@ -25,49 +24,46 @@ import org.eclipse.actf.visualization.internal.engines.blind.BlindVizEnginePlugi
 import org.eclipse.actf.visualization.internal.engines.blind.Messages;
 import org.eclipse.actf.visualization.internal.engines.blind.SummaryEvaluation;
 import org.eclipse.actf.visualization.util.RadarChart;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * Utility class to create evaluation summary of target page
  */
 public class PageEvaluation {
 
-	/**
-	 * Get default {@link HighlightStringListener} for blind usability
-	 * visualization result
-	 * 
-	 * @return {@link HighlightStringListener}
-	 */
-	public static HighlightStringListener getHighLightStringListener() {
-		HighlightStringListener hlsl = new HighlightStringListener();
-		Color blue = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
-		Color red = Display.getDefault().getSystemColor(SWT.COLOR_RED);
-
-		if (Display.getDefault().getHighContrast()) {
-			blue = null;
-			red = null;
-		}
-
-		hlsl.addTarget(Messages.Eval_excellent, blue, SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_completely_compliant, blue, SWT.BOLD);
-		hlsl.addTarget(
-				Messages.Eval_completely_compliant_with_user_check_items, blue,
-				SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_compliant_with_some_other_errors, red,
-				SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_some_errors_on_metrics, red, SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_many_accessibility_issues, red, SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_some_accessibility_issues, red, SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_easy_for_blind_user_to_navigate, blue,
-				SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_page_has_skiplinks_headings, red, SWT.BOLD);
-		hlsl.addTarget(Messages.Eval_darkcolored_visualization_view, red,
-				SWT.BOLD);
-
-		return (hlsl);
-	}
+//	/**
+//	 * Get default {@link HighlightStringListener} for blind usability
+//	 * visualization result
+//	 *
+//	 * @return {@link HighlightStringListener}
+//	 */
+//	public static HighlightStringListener getHighLightStringListener() {
+//		HighlightStringListener hlsl = new HighlightStringListener();
+//		Color blue = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
+//		Color red = Display.getDefault().getSystemColor(SWT.COLOR_RED);
+//
+//		if (Display.getDefault().getHighContrast()) {
+//			blue = null;
+//			red = null;
+//		}
+//
+//		hlsl.addTarget(Messages.Eval_excellent, blue, SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_completely_compliant, blue, SWT.BOLD);
+//		hlsl.addTarget(
+//				Messages.Eval_completely_compliant_with_user_check_items, blue,
+//				SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_compliant_with_some_other_errors, red,
+//				SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_some_errors_on_metrics, red, SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_many_accessibility_issues, red, SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_some_accessibility_issues, red, SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_easy_for_blind_user_to_navigate, blue,
+//				SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_page_has_skiplinks_headings, red, SWT.BOLD);
+//		hlsl.addTarget(Messages.Eval_darkcolored_visualization_view, red,
+//				SWT.BOLD);
+//
+//		return (hlsl);
+//	}
 
 	private GuidelineHolder guidelineHolder = GuidelineHolder.getInstance();
 

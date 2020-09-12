@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.actf.visualization.engines.blind;
 
+import compat.PreferenceConverter;
+import compat.RGB;
+import compat.StringConverter;
 import org.eclipse.actf.visualization.engines.blind.ui.preferences.IBlindPreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.jface.preference.PreferenceConverter;
-import org.eclipse.jface.resource.StringConverter;
-import org.eclipse.swt.graphics.RGB;
 import allinter.ResourceBundleControlHolder;
 
 import java.util.ResourceBundle;

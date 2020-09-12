@@ -18,7 +18,6 @@ import java.util.List;
 import org.eclipse.actf.mediator.IACTFReport;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 import org.eclipse.actf.visualization.eval.problem.IProblemItemVisitor;
-import org.eclipse.swt.custom.LineStyleListener;
 
 /**
  * Interface for evaluation result information
@@ -142,22 +141,22 @@ public interface IEvaluationResult extends IACTFReport {
 	 */
 	public void setShowAllGuidelineItems(boolean b);
 
-	/**
-	 * Set {@link LineStyleListener} to be used to determine style of evaluation
-	 * summary.
-	 * 
-	 * @param lsl
-	 *            target {@link LineStyleListener}
-	 */
-	void setLineStyleListener(LineStyleListener lsl);
+//	/**
+//	 * Set {@link LineStyleListener} to be used to determine style of evaluation
+//	 * summary.
+//	 *
+//	 * @param lsl
+//	 *            target {@link LineStyleListener}
+//	 */
+//	void setLineStyleListener(LineStyleListener lsl);
 
-	/**
-	 * Get {@link LineStyleListener} to be used to determine style of evaluation
-	 * summary.
-	 * 
-	 * @return {@link LineStyleListener}
-	 */
-	LineStyleListener getLineStyleListener();
+//	/**
+//	 * Get {@link LineStyleListener} to be used to determine style of evaluation
+//	 * summary.
+//	 *
+//	 * @return {@link LineStyleListener}
+//	 */
+//	LineStyleListener getLineStyleListener();
 
 	/**
 	 * Add File to evaluation result for future use

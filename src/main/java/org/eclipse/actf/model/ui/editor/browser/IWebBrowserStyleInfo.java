@@ -12,8 +12,8 @@ package org.eclipse.actf.model.ui.editor.browser;
 
 import java.util.Map;
 
+import compat.RGB;
 import org.eclipse.actf.model.ui.ModelServiceSizeInfo;
-import org.eclipse.swt.graphics.RGB;
 
 /**
  * Interface for style information of content and {@link IWebBrowserACTF}

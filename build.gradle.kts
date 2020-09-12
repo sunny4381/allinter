@@ -31,7 +31,6 @@ dependencies {
     implementation("org.eclipse.platform:org.eclipse.ui:3.116.0") {
         exclude(group = "org.eclipse.platform", module = "org.eclipse.swt")
     }
-    implementation("org.eclipse.swt:org.eclipse.swt.win32.win32.x86:4.3")
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")

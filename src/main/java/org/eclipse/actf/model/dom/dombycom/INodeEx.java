@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.actf.model.dom.dombycom;
 
+import compat.Rectangle;
 import org.eclipse.actf.util.vocab.IEvalTarget;
-import org.eclipse.swt.graphics.Rectangle;
 import org.w3c.dom.Node;
 
 /**

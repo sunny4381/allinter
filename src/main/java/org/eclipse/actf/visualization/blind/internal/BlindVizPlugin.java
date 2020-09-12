@@ -10,53 +10,53 @@
  *******************************************************************************/
 package org.eclipse.actf.visualization.blind.internal;
 
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
-
-/**
- * The activator class controls the plug-in life cycle
- */
-public class BlindVizPlugin extends AbstractUIPlugin {
-
-	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.blind"; //$NON-NLS-1$
-
-	// The shared instance
-	private static BlindVizPlugin plugin;
-
-	/**
-	 * The constructor
-	 */
-	public BlindVizPlugin() {
-		plugin = this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
-	/**
-	 * Returns the shared instance
-	 * 
-	 * @return the shared instance
-	 */
-	public static BlindVizPlugin getDefault() {
-		return plugin;
-	}
-
-}
+//import org.eclipse.ui.plugin.AbstractUIPlugin;
+//import org.osgi.framework.BundleContext;
+//
+///**
+// * The activator class controls the plug-in life cycle
+// */
+//public class BlindVizPlugin extends AbstractUIPlugin {
+//
+//	// The plug-in ID
+//	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.blind"; //$NON-NLS-1$
+//
+//	// The shared instance
+//	private static BlindVizPlugin plugin;
+//
+//	/**
+//	 * The constructor
+//	 */
+//	public BlindVizPlugin() {
+//		plugin = this;
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+//	 */
+//	public void start(BundleContext context) throws Exception {
+//		super.start(context);
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+//	 */
+//	public void stop(BundleContext context) throws Exception {
+//		plugin = null;
+//		super.stop(context);
+//	}
+//
+//	/**
+//	 * Returns the shared instance
+//	 *
+//	 * @return the shared instance
+//	 */
+//	public static BlindVizPlugin getDefault() {
+//		return plugin;
+//	}
+//
+//}

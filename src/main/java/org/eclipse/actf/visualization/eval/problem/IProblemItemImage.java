@@ -11,7 +11,6 @@
 package org.eclipse.actf.visualization.eval.problem;
 
 import org.eclipse.actf.visualization.ui.IPositionSize;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * Interface to store image related information in addition to
@@ -54,10 +53,10 @@ public interface IProblemItemImage extends IProblemItem, IPositionSize,
 	 */
 	public abstract int getIconId();
 
-	/**
-	 * @return problem icon as {@link Image}
-	 */
-	public abstract Image getIconImage();
+//	/**
+//	 * @return problem icon as {@link Image}
+//	 */
+//	public abstract Image getIconImage();
 
 	/**
 	 * @return tooltip text for problem icon

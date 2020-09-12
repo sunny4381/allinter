@@ -11,25 +11,25 @@
 
 package org.eclipse.actf.visualization.eval.preferences;
 
-import org.eclipse.actf.visualization.internal.eval.EvaluationPlugin;
-import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.jface.preference.IPreferenceStore;
-
-
-public class PreferenceInitializer extends AbstractPreferenceInitializer {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
-	 */
-	public void initializeDefaultPreferences() {
-		IPreferenceStore store = EvaluationPlugin.getDefault()
-				.getPreferenceStore();
-
-		store.setDefault(IPreferenceConstants.CHECKER_TARGET,
-				IPreferenceConstants.CHECKER_ORG_DOM);
-
-	}
-
-}
+//import org.eclipse.actf.visualization.internal.eval.EvaluationPlugin;
+//import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+//import org.eclipse.jface.preference.IPreferenceStore;
+//
+//
+//public class PreferenceInitializer extends AbstractPreferenceInitializer {
+//
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
+//	 */
+//	public void initializeDefaultPreferences() {
+//		IPreferenceStore store = EvaluationPlugin.getDefault()
+//				.getPreferenceStore();
+//
+//		store.setDefault(IPreferenceConstants.CHECKER_TARGET,
+//				IPreferenceConstants.CHECKER_ORG_DOM);
+//
+//	}
+//
+//}

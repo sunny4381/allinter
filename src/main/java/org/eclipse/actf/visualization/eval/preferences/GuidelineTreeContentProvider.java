@@ -11,34 +11,34 @@
 
 package org.eclipse.actf.visualization.eval.preferences;
 
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.Viewer;
-
-
-
-
-public class GuidelineTreeContentProvider implements ITreeContentProvider {
-
-    public Object[] getChildren(Object parentElement) {
-        IGuidelineTreeItem parent = (IGuidelineTreeItem) parentElement;
-        return parent.getChildren().toArray();
-    }
-
-    public Object getParent(Object element) {
-        return ((IGuidelineTreeItem) element).getParent();
-    }
-
-    public boolean hasChildren(Object element) {
-        return getChildren(element).length > 0;
-    }
-
-    public Object[] getElements(Object inputElement) {
-        return getChildren(inputElement);
-    }
-
-    public void dispose() {
-    }
-
-    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-    }
-}
+//import org.eclipse.jface.viewers.ITreeContentProvider;
+//import org.eclipse.jface.viewers.Viewer;
+//
+//
+//
+//
+//public class GuidelineTreeContentProvider implements ITreeContentProvider {
+//
+//    public Object[] getChildren(Object parentElement) {
+//        IGuidelineTreeItem parent = (IGuidelineTreeItem) parentElement;
+//        return parent.getChildren().toArray();
+//    }
+//
+//    public Object getParent(Object element) {
+//        return ((IGuidelineTreeItem) element).getParent();
+//    }
+//
+//    public boolean hasChildren(Object element) {
+//        return getChildren(element).length > 0;
+//    }
+//
+//    public Object[] getElements(Object inputElement) {
+//        return getChildren(inputElement);
+//    }
+//
+//    public void dispose() {
+//    }
+//
+//    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+//    }
+//}

@@ -10,42 +10,42 @@
  *******************************************************************************/
 package org.eclipse.actf.model.internal.ui.editor.actions;
 
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.eclipse.actf.model.internal.ui.FavoritesChangeEvent;
-import org.eclipse.actf.model.internal.ui.FavoritesUtil;
-import org.eclipse.actf.model.internal.ui.editor.dialogs.FavoritesArrangeDialog;
-import org.eclipse.actf.model.ui.util.ModelServiceMessages;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.ui.IWorkbenchWindow;
-
-
-public class ArrangeFavoritesAction extends FavoritesAction {
-
-	public static final String ID = ArrangeFavoritesAction.class.getName();
-
-	private IWorkbenchWindow _window;
-
-	public ArrangeFavoritesAction(IWorkbenchWindow window, Map<String, String> favoritesMap) {
-		this._window = window;
-
-		setId(ID);
-		setText(ModelServiceMessages.MenuConst_ArrangeFavorites);
-	}
-
-	public void run() {
-		Map<String, String> tmpMap = new TreeMap<String, String>();
-		tmpMap.putAll(FavoritesUtil.getFavoritesMap());
-		FavoritesArrangeDialog arrangeDialog = new FavoritesArrangeDialog(
-				this._window.getShell(), tmpMap);
-
-		int returnCode = arrangeDialog.open();
-		if (returnCode == IDialogConstants.OK_ID && arrangeDialog.isModified()) {
-			tmpMap = arrangeDialog.getFavoritesMap();
-			FavoritesUtil.saveFavoritesMap(tmpMap);
-			FavoritesChangeEvent fce = new FavoritesChangeEvent(this, tmpMap);
-			fireFavoritesChanged(fce);
-		}
-	}
-}
+//import java.util.Map;
+//import java.util.TreeMap;
+//
+//import org.eclipse.actf.model.internal.ui.FavoritesChangeEvent;
+//import org.eclipse.actf.model.internal.ui.FavoritesUtil;
+//import org.eclipse.actf.model.internal.ui.editor.dialogs.FavoritesArrangeDialog;
+//import org.eclipse.actf.model.ui.util.ModelServiceMessages;
+//import org.eclipse.jface.dialogs.IDialogConstants;
+//import org.eclipse.ui.IWorkbenchWindow;
+//
+//
+//public class ArrangeFavoritesAction extends FavoritesAction {
+//
+//	public static final String ID = ArrangeFavoritesAction.class.getName();
+//
+//	private IWorkbenchWindow _window;
+//
+//	public ArrangeFavoritesAction(IWorkbenchWindow window, Map<String, String> favoritesMap) {
+//		this._window = window;
+//
+//		setId(ID);
+//		setText(ModelServiceMessages.MenuConst_ArrangeFavorites);
+//	}
+//
+//	public void run() {
+//		Map<String, String> tmpMap = new TreeMap<String, String>();
+//		tmpMap.putAll(FavoritesUtil.getFavoritesMap());
+//		FavoritesArrangeDialog arrangeDialog = new FavoritesArrangeDialog(
+//				this._window.getShell(), tmpMap);
+//
+//		int returnCode = arrangeDialog.open();
+//		if (returnCode == IDialogConstants.OK_ID && arrangeDialog.isModified()) {
+//			tmpMap = arrangeDialog.getFavoritesMap();
+//			FavoritesUtil.saveFavoritesMap(tmpMap);
+//			FavoritesChangeEvent fce = new FavoritesChangeEvent(this, tmpMap);
+//			fireFavoritesChanged(fce);
+//		}
+//	}
+//}

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.actf.model.ui;
 
-import org.eclipse.swt.graphics.Rectangle;
+import compat.Rectangle;
 import org.w3c.dom.Element;
 
 /**

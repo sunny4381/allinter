@@ -13,7 +13,6 @@ package org.eclipse.actf.model.ui;
 
 import java.io.File;
 
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -133,12 +132,12 @@ public interface IModelService {
 	 */
 	Document getLiveDocument();
 
-	/**
-	 * Get the {@link Composite} that hold the content
-	 * 
-	 * @return target {@link Composite}
-	 */
-	Composite getTargetComposite();
+//	/**
+//	 * Get the {@link Composite} that hold the content
+//	 *
+//	 * @return target {@link Composite}
+//	 */
+//	Composite getTargetComposite();
 
 	/**
 	 * Save the original {@link Document} into target file

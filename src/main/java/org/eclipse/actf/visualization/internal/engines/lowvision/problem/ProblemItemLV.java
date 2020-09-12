@@ -12,11 +12,8 @@
 package org.eclipse.actf.visualization.internal.engines.lowvision.problem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.eclipse.actf.visualization.eval.EvaluationUtil;
 import org.eclipse.actf.visualization.eval.problem.IProblemItemImage;
 import org.eclipse.actf.visualization.eval.problem.ProblemItemImpl;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 @SuppressWarnings("nls")
 public class ProblemItemLV extends ProblemItemImpl implements IProblemItemImage {
@@ -157,41 +154,41 @@ public class ProblemItemLV extends ProblemItemImpl implements IProblemItemImage 
 		return iconId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.actf.visualization.eval.problem.IProblemItemImage#getImageIcon
-	 * ()
-	 */
-	@JsonIgnore
-	public Image getIconImage() {
-		// return imageIcon;
-		String evalPluginID = EvaluationUtil.PLUGIN_ID;
-		if (isCanHighlight()) {
-			switch (iconId) {
-			case ICON_COLOR:
-				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
-						"icons/lowvision/HiIro21.gif").createImage(); //$NON-NLS-1$
-			case ICON_BLUR:
-				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
-						"icons/lowvision/HiBoke21.gif").createImage(); //$NON-NLS-1$
-			default:
-				return null;
-			}
-		} else {
-			switch (iconId) {
-			case ICON_COLOR:
-				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
-						"icons/lowvision/ErrIro21.gif").createImage(); //$NON-NLS-1$
-			case ICON_BLUR:
-				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
-						"icons/lowvision/ErrBoke21.gif").createImage(); //$NON-NLS-1$
-			default:
-				return null;
-			}
-		}
-	}
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see
+//	 * org.eclipse.actf.visualization.eval.problem.IProblemItemImage#getImageIcon
+//	 * ()
+//	 */
+//	@JsonIgnore
+//	public Image getIconImage() {
+//		// return imageIcon;
+//		String evalPluginID = EvaluationUtil.PLUGIN_ID;
+//		if (isCanHighlight()) {
+//			switch (iconId) {
+//			case ICON_COLOR:
+//				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
+//						"icons/lowvision/HiIro21.gif").createImage(); //$NON-NLS-1$
+//			case ICON_BLUR:
+//				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
+//						"icons/lowvision/HiBoke21.gif").createImage(); //$NON-NLS-1$
+//			default:
+//				return null;
+//			}
+//		} else {
+//			switch (iconId) {
+//			case ICON_COLOR:
+//				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
+//						"icons/lowvision/ErrIro21.gif").createImage(); //$NON-NLS-1$
+//			case ICON_BLUR:
+//				return AbstractUIPlugin.imageDescriptorFromPlugin(evalPluginID,
+//						"icons/lowvision/ErrBoke21.gif").createImage(); //$NON-NLS-1$
+//			default:
+//				return null;
+//			}
+//		}
+//	}
 
 	/*
 	 * (non-Javadoc)

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import compat.Rectangle;
 import org.eclipse.actf.model.ui.editor.browser.ICurrentStyles;
 import org.eclipse.actf.util.logging.DebugPrintUtil;
 import org.eclipse.actf.visualization.engines.lowvision.LowVisionException;
@@ -37,7 +38,6 @@ import org.eclipse.actf.visualization.internal.engines.lowvision.problem.Prohibi
 import org.eclipse.actf.visualization.internal.engines.lowvision.problem.ProhibitedBothColorsProblem;
 import org.eclipse.actf.visualization.internal.engines.lowvision.problem.ProhibitedForegroundColorProblem;
 import org.eclipse.actf.visualization.internal.engines.lowvision.problem.SmallFontProblem;
-import org.eclipse.swt.graphics.Rectangle;
 
 /*
  * informations from HTML DOM

@@ -11,46 +11,46 @@
 
 package org.eclipse.actf.ui.util;
 
-import org.eclipse.jface.preference.PreferenceDialog;
-import org.eclipse.ui.dialogs.PreferencesUtil;
-
-/**
- * Utility class to launch preference page.
- */
-public class PreferenceUtils {
-
-	private static PreferenceDialog _preferenceDialog = null;
-
-	/**
-	 * Open a workbench preference dialog.
-	 */
-	public static void openPreferenceDialog() {
-		openPreferenceDialog(null);
-	}
-
-	/**
-	 * Open a workbench preference dialog and selects particular preference
-	 * page. If there is already a preference dialog open this dialog is used
-	 * and its selection is set to the page with id preferencePageId. Show the
-	 * other pages as filtered results using whatever filtering criteria the
-	 * search uses.
-	 * 
-	 * @param selectedPreferencePageId
-	 *            target preference page ID
-	 */
-	public static void openPreferenceDialog(String selectedPreferencePageId) {
-		_preferenceDialog = PreferencesUtil.createPreferenceDialogOn(null,
-				selectedPreferencePageId, null, null);
-		_preferenceDialog.open();
-	}
-
-	/**
-	 * Close the preference dialog launched by using this utility.
-	 */
-	public static void close() {
-		if (null != _preferenceDialog) {
-			_preferenceDialog.close();
-			_preferenceDialog = null;
-		}
-	}
-}
+//import org.eclipse.jface.preference.PreferenceDialog;
+//import org.eclipse.ui.dialogs.PreferencesUtil;
+//
+///**
+// * Utility class to launch preference page.
+// */
+//public class PreferenceUtils {
+//
+//	private static PreferenceDialog _preferenceDialog = null;
+//
+//	/**
+//	 * Open a workbench preference dialog.
+//	 */
+//	public static void openPreferenceDialog() {
+//		openPreferenceDialog(null);
+//	}
+//
+//	/**
+//	 * Open a workbench preference dialog and selects particular preference
+//	 * page. If there is already a preference dialog open this dialog is used
+//	 * and its selection is set to the page with id preferencePageId. Show the
+//	 * other pages as filtered results using whatever filtering criteria the
+//	 * search uses.
+//	 *
+//	 * @param selectedPreferencePageId
+//	 *            target preference page ID
+//	 */
+//	public static void openPreferenceDialog(String selectedPreferencePageId) {
+//		_preferenceDialog = PreferencesUtil.createPreferenceDialogOn(null,
+//				selectedPreferencePageId, null, null);
+//		_preferenceDialog.open();
+//	}
+//
+//	/**
+//	 * Close the preference dialog launched by using this utility.
+//	 */
+//	public static void close() {
+//		if (null != _preferenceDialog) {
+//			_preferenceDialog.close();
+//			_preferenceDialog = null;
+//		}
+//	}
+//}

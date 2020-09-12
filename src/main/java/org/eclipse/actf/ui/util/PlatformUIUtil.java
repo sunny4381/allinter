@@ -15,7 +15,6 @@ import java.net.URL;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IViewPart;
@@ -65,24 +64,24 @@ public class PlatformUIUtil {
 		return null;
 	}
 
-	/**
-	 * Get Active Workbench Window's shell
-	 * 
-	 * @see IWorkbenchWindow
-	 * @return Shell, or null if the shell has not been created yet or if the
-	 *         window has been closed
-	 */
-	public static Shell getShell() {
-		IWorkbenchWindow window = getActiveWindow();
-		if (null != window) {
-			try {
-				return window.getShell();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
+//	/**
+//	 * Get Active Workbench Window's shell
+//	 *
+//	 * @see IWorkbenchWindow
+//	 * @return Shell, or null if the shell has not been created yet or if the
+//	 *         window has been closed
+//	 */
+//	public static Shell getShell() {
+//		IWorkbenchWindow window = getActiveWindow();
+//		if (null != window) {
+//			try {
+//				return window.getShell();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Get active perspective ID

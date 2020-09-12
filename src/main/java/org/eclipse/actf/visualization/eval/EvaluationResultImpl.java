@@ -17,10 +17,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
-import org.eclipse.actf.ui.util.HighlightStringListener;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 import org.eclipse.actf.visualization.eval.problem.IProblemItemVisitor;
-import org.eclipse.swt.custom.LineStyleListener;
 
 /**
  * Default implementation of {@link IEvaluationResult}
@@ -43,7 +41,7 @@ public class EvaluationResultImpl implements IEvaluationResult {
 
 	private Vector<File> associateFileV = new Vector<File>();
 
-	private LineStyleListener lsl = new HighlightStringListener();
+//	private LineStyleListener lsl = new HighlightStringListener();
 
 	public EvaluationResultImpl() {
 	}
@@ -126,15 +124,15 @@ public class EvaluationResultImpl implements IEvaluationResult {
 		showAllGuidelineItems = b;
 	}
 
-	public LineStyleListener getLineStyleListener() {
-		return lsl;
-	}
-
-	public void setLineStyleListener(LineStyleListener lsl) {
-		if (lsl != null) {
-			this.lsl = lsl;
-		}
-	}
+//	public LineStyleListener getLineStyleListener() {
+//		return lsl;
+//	}
+//
+//	public void setLineStyleListener(LineStyleListener lsl) {
+//		if (lsl != null) {
+//			this.lsl = lsl;
+//		}
+//	}
 
 	public boolean addAssociateFile(File target) {
 		if (target != null) {

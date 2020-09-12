@@ -1,7 +1,7 @@
 package allinter.lowvision;
 
+import compat.Rectangle;
 import org.eclipse.actf.model.ui.editor.browser.ICurrentStyles;
-import org.eclipse.swt.graphics.Rectangle;
 import allinter.cdt.Rect;
 import allinter.cdt.Style;
 import org.w3c.dom.Element;
