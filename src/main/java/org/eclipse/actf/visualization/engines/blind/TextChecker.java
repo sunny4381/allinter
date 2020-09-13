@@ -46,6 +46,10 @@ public class TextChecker {
 
 	private Set<String> ngPatterns = new HashSet<String>();
 
+	static {
+		getInstance();
+	}
+
 	// TODO spell out check
 
 	// separated from VisualizeEngine

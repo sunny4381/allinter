@@ -2,11 +2,11 @@ package allinter.htmlchecker;
 
 import allinter.BrowserTab;
 import allinter.HtmlCheckerOptions;
+import compat.FileUtils;
 import org.eclipse.actf.model.dom.html.DocumentTypeUtil;
 import org.eclipse.actf.model.dom.html.HTMLParserFactory;
 import org.eclipse.actf.model.dom.html.IHTMLParser;
 import org.eclipse.actf.model.ui.editor.browser.IWebBrowserACTF;
-import org.eclipse.actf.util.FileUtils;
 import org.eclipse.actf.util.dom.DomPrintUtil;
 import org.eclipse.actf.visualization.IVisualizationConst;
 import org.eclipse.actf.visualization.blind.IBlindVisualizer;
@@ -35,7 +35,6 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 
-import static java.nio.file.Files.createTempDirectory;
 import static java.nio.file.Files.walk;
 
 public class Checker {
@@ -70,7 +69,7 @@ public class Checker {
             return null;
         }
 
-        Path workDirectory = createTempDirectory("htmlchecker");
+        Path workDirectory = FileUtils.newTempPath();
         try {
             allinter.htmlchecker.Checker checker = new allinter.htmlchecker.Checker(browser, url, workDirectory.toString());
             checker.run();
@@ -369,7 +368,7 @@ public class Checker {
         return IBlindVisualizer.OK;
     }
 
-    private boolean hasFrameset(Document document, IWebBrowserACTF webBrowser) throws MalformedURLException, FileNotFoundException, UnsupportedEncodingException {
+    private boolean hasFrameset(Document document, IWebBrowserACTF webBrowser) throws MalformedURLException, IOException, UnsupportedEncodingException {
 
         NodeList framesetNl = document.getElementsByTagName("frameset"); //$NON-NLS-1$
 

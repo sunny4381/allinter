@@ -11,31 +11,30 @@
 package org.eclipse.actf.visualization.lowvision;
 
 import java.io.File;
+import java.io.IOException;
 
-import org.eclipse.actf.util.FileUtils;
-import org.eclipse.core.runtime.Plugin;
-import org.osgi.framework.BundleContext;
+import compat.FileUtils;
 
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class LowVisionVizPlugin extends Plugin {
+public class LowVisionVizPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.actf.visualization.lowvision"; //$NON-NLS-1$
 
-	// The shared instance
-	private static LowVisionVizPlugin plugin;
+//	// The shared instance
+//	private static LowVisionVizPlugin plugin;
 
 	private static File tmpDir = null;
 
-	/**
-	 * The constructor
-	 */
-	public LowVisionVizPlugin() {
-		plugin = this;
-	}
+//	/**
+//	 * The constructor
+//	 */
+//	public LowVisionVizPlugin() {
+//		plugin = this;
+//	}
 
 //	/*
 //	 * (non-Javadoc)
@@ -56,49 +55,41 @@ public class LowVisionVizPlugin extends Plugin {
 //		}
 //	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
+//	/*
+//	 * (non-Javadoc)
+//	 *
+//	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+//	 */
+//	public void stop(BundleContext context) throws Exception {
+//		plugin = null;
+//		super.stop(context);
+//
+//		if (tmpDir != null) {
+//			FileUtils.deleteFiles(tmpDir);
+//		}
+//	}
 
-		if (tmpDir != null) {
-			FileUtils.deleteFiles(tmpDir);
-		}
-	}
+//	/**
+//	 * Returns the shared instance
+//	 *
+//	 * @return the shared instance
+//	 */
+//	public static LowVisionVizPlugin getDefault() {
+//		return plugin;
+//	}
 
-	/**
-	 * Returns the shared instance
-	 * 
-	 * @return the shared instance
-	 */
-	public static LowVisionVizPlugin getDefault() {
-		return plugin;
-	}
-
-	private static void createTempDirectory() {
+	private static void createTempDirectory() throws IOException {
 		if (tmpDir == null) {
-			String tmpS = plugin.getStateLocation().toOSString()
-					+ File.separator + "tmp"; //$NON-NLS-1$
-			if (FileUtils.isAvailableDirectory(tmpS)) {
-				tmpDir = new File(tmpS);
-			} else {
-				//System.err.println(PLUGIN_ID + " : can't create tmp Directory");
-				tmpDir = new File(System.getProperty("java.io.tmpdir")); //$NON-NLS-1$
-			}
+			tmpDir = FileUtils.newTempDirectory();
 		}
 	}
 
-	public static File createTempFile(String prefix, String suffix)
-			throws Exception {
+	public static File createTempFile(String prefix, String suffix) throws Exception {
 		createTempDirectory();
 		return (File.createTempFile(prefix, suffix, tmpDir));
 	}
 
-	public static File getTempDirectory() {
+	public static File getTempDirectory() throws IOException {
 		if (tmpDir == null) {
 			createTempDirectory();
 		}

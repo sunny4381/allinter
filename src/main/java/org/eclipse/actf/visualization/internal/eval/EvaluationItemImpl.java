@@ -19,7 +19,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.visualization.eval.IEvaluationItem;
 import org.eclipse.actf.visualization.eval.IGuidelineItem;
 import org.eclipse.actf.visualization.eval.ITechniquesItem;

@@ -11,7 +11,7 @@
 
 package org.eclipse.actf.visualization.internal.engines.blind;
 
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.visualization.engines.blind.eval.PageEvaluation;
 import org.eclipse.actf.visualization.eval.guideline.GuidelineHolder;
 import org.eclipse.actf.visualization.eval.html.statistics.PageData;

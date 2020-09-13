@@ -12,15 +12,15 @@
 
 package org.eclipse.actf.util;
 
-import java.io.File;
-
-public class FileUtils {
-
-	/**
-	 * Line separator. (System.getProperty("line.separator"))
-	 */
-	public static final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
-
+//import java.io.File;
+//
+//public class FileUtils {
+//
+//	/**
+//	 * Line separator. (System.getProperty("line.separator"))
+//	 */
+//	public static final String LINE_SEP = System.getProperty("line.separator"); //$NON-NLS-1$
+//
 //	private static final int BUFFER_SIZE = 8192;
 //
 //	private static Logger logger = Logger.getLogger(LoggingUtil.ACTF_CORE_LOGGER_NAME);
@@ -266,27 +266,27 @@ public class FileUtils {
 //		}
 //		return flag;
 //	}
-
-	/**
-	 * delete files or directories under the specified root directory
-	 *
-	 * @param rootDir -
-	 *            root directory from which to start - must be existing
-	 *            directory
-	 */
-	public static void deleteFiles(File rootDir) {
-		if (rootDir != null) {
-			File[] fileList = rootDir.listFiles();
-
-			for (int i = 0; i < fileList.length; i++) {
-				if (fileList[i].isDirectory()) {
-					deleteFiles(fileList[i]);
-				}
-				fileList[i].delete();
-			}
-		}
-	}
-
+//
+//	/**
+//	 * delete files or directories under the specified root directory
+//	 *
+//	 * @param rootDir -
+//	 *            root directory from which to start - must be existing
+//	 *            directory
+//	 */
+//	public static void deleteFiles(File rootDir) {
+//		if (rootDir != null) {
+//			File[] fileList = rootDir.listFiles();
+//
+//			for (int i = 0; i < fileList.length; i++) {
+//				if (fileList[i].isDirectory()) {
+//					deleteFiles(fileList[i]);
+//				}
+//				fileList[i].delete();
+//			}
+//		}
+//	}
+//
 //	/**
 //	 * delete files or directories matching a specified pattern
 //	 *
@@ -349,23 +349,23 @@ public class FileUtils {
 //			findFiles(filter, dir, fileList);
 //		}
 //	} // findFiles
-
-	/**
-	 * Confirm availability of the directory
-	 *
-	 * @param path
-	 *            target directory path
-	 * @return true if the target path is writable directory
-	 */
-	public static boolean isAvailableDirectory(String path) {
-		File testDir = new File(path);
-		if ((!testDir.isDirectory() || !testDir.canWrite())
-				&& !testDir.mkdirs()) {
-			return false;
-		}
-		return true;
-	}
-
+//
+//	/**
+//	 * Confirm availability of the directory
+//	 *
+//	 * @param path
+//	 *            target directory path
+//	 * @return true if the target path is writable directory
+//	 */
+//	public static boolean isAvailableDirectory(String path) {
+//		File testDir = new File(path);
+//		if ((!testDir.isDirectory() || !testDir.canWrite())
+//				&& !testDir.mkdirs()) {
+//			return false;
+//		}
+//		return true;
+//	}
+//
 //	/**
 //	 * Create the ACTF temporary directory which is a subdirectory of the value of java.io.tmpdir
 //	 * Checking is done to ensure a File.separator is added if needed.
@@ -383,4 +383,4 @@ public class FileUtils {
 //		}
 //		return tempDir;
 //	}
-}
+//}

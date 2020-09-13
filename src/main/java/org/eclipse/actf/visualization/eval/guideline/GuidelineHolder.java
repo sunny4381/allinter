@@ -19,27 +19,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Collections2;
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.util.logging.DebugPrintUtil;
 import org.eclipse.actf.visualization.eval.ICheckerInfoProvider;
 import org.eclipse.actf.visualization.eval.IEvaluationItem;
 import org.eclipse.actf.visualization.eval.IGuidelineItem;
 import org.eclipse.actf.visualization.eval.ITechniquesItem;
-import org.eclipse.actf.visualization.eval.preferences.ICheckerPreferenceConstants;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 import org.eclipse.actf.visualization.eval.problem.ProblemItemImpl;
 import org.eclipse.actf.visualization.eval.problem.ReportUtil;
 import org.eclipse.actf.visualization.internal.eval.CheckerExtension;
 import org.eclipse.actf.visualization.internal.eval.EvaluationItemImpl;
-import org.eclipse.actf.visualization.internal.eval.EvaluationPlugin;
 import org.eclipse.actf.visualization.internal.eval.Messages;
 import org.eclipse.actf.visualization.internal.eval.guideline.CheckItemReader;
 import org.eclipse.actf.visualization.internal.eval.guideline.GuidelineData;
 import org.eclipse.actf.visualization.internal.eval.guideline.GuidelineDataComparator;
 import org.eclipse.actf.visualization.internal.eval.guideline.GuidelineItemReader;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.Bundle;
 
 /**
  * Utility class to manage guideline, metrics, and evaluation items.

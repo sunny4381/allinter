@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Vector;
 
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.util.JapaneseEncodingDetector;
 
 /**

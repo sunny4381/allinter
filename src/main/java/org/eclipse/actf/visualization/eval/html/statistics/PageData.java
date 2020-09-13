@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 import org.eclipse.actf.visualization.eval.problem.IProblemItemVisitor;
 import org.eclipse.actf.visualization.internal.eval.XMLStringUtil;

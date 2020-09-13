@@ -14,7 +14,7 @@ package org.eclipse.actf.visualization.eval.html.statistics;
 import java.net.URL;
 import java.util.Vector;
 
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.visualization.eval.html.HtmlTagUtil;
 import org.eclipse.actf.visualization.eval.problem.IProblemItem;
 import org.eclipse.actf.visualization.eval.problem.ProblemItemImpl;

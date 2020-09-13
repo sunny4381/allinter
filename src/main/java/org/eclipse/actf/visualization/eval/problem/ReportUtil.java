@@ -16,7 +16,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeSet;
 
-import org.eclipse.actf.util.FileUtils;
+import compat.FileUtils;
 import org.eclipse.actf.visualization.eval.IEvaluationItem;
 import org.eclipse.actf.visualization.eval.IGuidelineItem;
 import org.eclipse.actf.visualization.eval.ITechniquesItem;
@@ -28,7 +28,6 @@ public class ReportUtil implements IProblemItemVisitor {
 	public static final int CSV = 0;
 	public static final int TAB = 1;
 
-	public static final String LINE_SEP = FileUtils.LINE_SEP;
 	private static final String COMMA = ",";
 	private static final String TAB_STRING = "\t";
 	private static final String DOUBLEQUATE = "\"";

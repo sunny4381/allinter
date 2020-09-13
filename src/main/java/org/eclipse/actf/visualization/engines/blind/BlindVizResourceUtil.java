@@ -11,6 +11,7 @@
 package org.eclipse.actf.visualization.engines.blind;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.actf.visualization.internal.engines.blind.BlindVizEnginePlugin;
 
@@ -127,7 +128,7 @@ public class BlindVizResourceUtil {
 	 * @return temporary directory as {@link File}
 	 * @see AbstractUIPlugin#getStateLocation()
 	 */
-	public static File getTempDirectory() {
+	public static File getTempDirectory() throws IOException {
 		return BlindVizEnginePlugin.getTempDirectory();
 	}
 

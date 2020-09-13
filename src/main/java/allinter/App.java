@@ -5,15 +5,19 @@ import com.github.kklisura.cdt.launch.ChromeLauncher;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import picocli.CommandLine;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
 public class App implements Callable<Integer> {
+    private final static Logger logger = LoggerFactory.getLogger(App.class);
+
     @CommandLine.Parameters(index = "0", arity = "0..1", description = "The url to check")
     private String url = null;
 
@@ -36,8 +40,6 @@ public class App implements Callable<Integer> {
     private LowVisionOptions lowVisionOptions = new LowVisionOptions();
 
     public static void main(String[] args) {
-        // slf4j のロガーを 1 つでも作らないとちゃんと初期化が行われない様子
-        LoggerFactory.getLogger(App.class);
         // java.util.loggin(jul) のブリッジ登録
         SLF4JBridgeHandler.removeHandlersForRootLogger();
         SLF4JBridgeHandler.install();
@@ -49,6 +51,13 @@ public class App implements Callable<Integer> {
         int exitCode = new CommandLine(new App())
                 .registerConverter(Locale.class, s -> new Locale.Builder().setLanguageTag(s).build())
                 .execute(args);
+
+        try {
+            compat.FileUtils.cleanupWorkDirectory();
+        } catch (IOException ex) {
+            logger.warn("unable to clean up work direcgtory", ex);
+        }
+
         return exitCode;
     }
 
