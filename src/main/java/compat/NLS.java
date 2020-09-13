@@ -13,6 +13,9 @@
  *******************************************************************************/
 package compat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,9 +30,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import org.eclipse.osgi.framework.log.FrameworkLog;
-import org.eclipse.osgi.framework.log.FrameworkLogEntry;
-import org.eclipse.osgi.internal.util.SupplementDebug;
 
 /**
  * Common superclass for all message bundle classes.  Provides convenience
@@ -73,13 +73,8 @@ public abstract class NLS {
 		}
 	});
 
-	/*
-	 * NOTE do not change the name of this field; it is set by the Framework using reflection
-	 */
-	private static FrameworkLog frameworkLog;
+	private static Logger logger = LoggerFactory.getLogger(NLS.class);
 
-	static final int SEVERITY_ERROR = 0x04;
-	static final int SEVERITY_WARNING = 0x02;
 	/*
 	 * This object is assigned to the value of a field map to indicate
 	 * that a translated message has already been assigned to that field.
@@ -321,14 +316,12 @@ public abstract class NLS {
 				// log it and continue. This means that the field will (most likely) be un-initialized and
 				// will fail later in the code and if so then we will see both the NPE and this error.
 				String value = "NLS missing message: " + field.getName() + " in: " + bundleName; //$NON-NLS-1$ //$NON-NLS-2$
-				if (SupplementDebug.STATIC_DEBUG_MESSAGE_BUNDLES)
-					System.out.println(value);
-				log(SEVERITY_WARNING, value, null);
+				logger.warn(value);
 				if (!isAccessible)
 					field.setAccessible(true);
 				field.set(null, value);
 			} catch (Exception e) {
-				log(SEVERITY_ERROR, "Error setting the missing message value for: " + field.getName(), e); //$NON-NLS-1$
+				logger.error("Error setting the missing message value for: " + field.getName(), e); //$NON-NLS-1$
 			}
 		}
 	}
@@ -362,7 +355,7 @@ public abstract class NLS {
 				final MessagesProperties properties = new MessagesProperties(fields, bundleName, isAccessible);
 				properties.load(input);
 			} catch (IOException e) {
-				log(SEVERITY_ERROR, "Error loading " + variant, e); //$NON-NLS-1$
+				logger.error("Error loading " + variant, e); //$NON-NLS-1$
 			} finally {
 				if (is != null)
 					try {
@@ -373,47 +366,46 @@ public abstract class NLS {
 			}
 		}
 		computeMissingMessages(bundleName, clazz, fields, fieldArray, isAccessible);
-		if (SupplementDebug.STATIC_DEBUG_MESSAGE_BUNDLES)
-			System.out.println("Time to load message bundle: " + bundleName + " was " + (System.currentTimeMillis() - start) + "ms."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		logger.debug("Time to load message bundle: " + bundleName + " was " + (System.currentTimeMillis() - start) + "ms."); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
-	/*
-	 * The method adds a log entry based on the error message and exception.
-	 * The output is written to the System.err.
-	 *
-	 * This method is only expected to be called if there is a problem in
-	 * the NLS mechanism. As a result, translation facility is not available
-	 * here and messages coming out of this log are generally not translated.
-	 *
-	 * @param severity - severity of the message (SEVERITY_ERROR or SEVERITY_WARNING)
-	 * @param message - message to log
-	 * @param e - exception to log
-	 */
-	static void log(int severity, String message, Exception e) {
-		if (severity == SEVERITY_WARNING && ignoreWarnings)
-			return; // ignoring warnings; bug 292980
-		if (frameworkLog != null) {
-			frameworkLog.log(new FrameworkLogEntry("org.eclipse.osgi", severity, 1, message, 0, e, null)); //$NON-NLS-1$
-			return;
-		}
-		String statusMsg;
-		switch (severity) {
-			case SEVERITY_ERROR :
-				statusMsg = "Error: "; //$NON-NLS-1$
-				break;
-			case SEVERITY_WARNING :
-				// intentionally fall through:
-			default :
-				statusMsg = "Warning: "; //$NON-NLS-1$
-		}
-		if (message != null)
-			statusMsg += message;
-		if (e != null)
-			statusMsg += ": " + e.getMessage(); //$NON-NLS-1$
-		System.err.println(statusMsg);
-		if (e != null)
-			e.printStackTrace();
-	}
+//	/*
+//	 * The method adds a log entry based on the error message and exception.
+//	 * The output is written to the System.err.
+//	 *
+//	 * This method is only expected to be called if there is a problem in
+//	 * the NLS mechanism. As a result, translation facility is not available
+//	 * here and messages coming out of this log are generally not translated.
+//	 *
+//	 * @param severity - severity of the message (SEVERITY_ERROR or SEVERITY_WARNING)
+//	 * @param message - message to log
+//	 * @param e - exception to log
+//	 */
+//	static void log(int severity, String message, Exception e) {
+//		if (severity == SEVERITY_WARNING && ignoreWarnings)
+//			return; // ignoring warnings; bug 292980
+//		if (frameworkLog != null) {
+//			frameworkLog.log(new FrameworkLogEntry("org.eclipse.osgi", severity, 1, message, 0, e, null)); //$NON-NLS-1$
+//			return;
+//		}
+//		String statusMsg;
+//		switch (severity) {
+//			case SEVERITY_ERROR :
+//				statusMsg = "Error: "; //$NON-NLS-1$
+//				break;
+//			case SEVERITY_WARNING :
+//				// intentionally fall through:
+//			default :
+//				statusMsg = "Warning: "; //$NON-NLS-1$
+//		}
+//		if (message != null)
+//			statusMsg += message;
+//		if (e != null)
+//			statusMsg += ": " + e.getMessage(); //$NON-NLS-1$
+//		System.err.println(statusMsg);
+//		if (e != null)
+//			e.printStackTrace();
+//	}
 
 	/*
 	 * Class which sub-classes java.util.Properties and uses the #put method
@@ -447,11 +439,9 @@ public abstract class NLS {
 				return null;
 			if (fieldObject == null) {
 				final String msg = "NLS unused message: " + key + " in: " + bundleName;//$NON-NLS-1$ //$NON-NLS-2$
-				if (SupplementDebug.STATIC_DEBUG_MESSAGE_BUNDLES)
-					System.out.println(msg);
 				// keys with '.' are ignored by design (bug 433424)
 				if (key instanceof String && ((String) key).indexOf('.') < 0) {
-					log(SEVERITY_WARNING, msg, null);
+					logger.warn(msg);
 				}
 				return null;
 			}
@@ -474,7 +464,7 @@ public abstract class NLS {
 				// This is to ensure we do not keep the key chars in memory.
 				field.set(null, new String(((String) value).toCharArray()));
 			} catch (Exception e) {
-				log(SEVERITY_ERROR, "Exception setting field value.", e); //$NON-NLS-1$
+				logger.error("Exception setting field value.", e); //$NON-NLS-1$
 			}
 			return null;
 		}

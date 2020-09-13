@@ -12,25 +12,20 @@ package org.eclipse.actf.visualization.engines.blind;
 
 import java.io.File;
 
-import org.eclipse.actf.util.FileUtils;
-import org.eclipse.actf.visualization.eval.EvaluationUtil;
 import org.eclipse.actf.visualization.internal.engines.blind.BlindVizEnginePlugin;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 
 /**
  * Utility class for managing blind usability visualization resources.
  */
 public class BlindVizResourceUtil {
 
-	/**
-	 * Save images used in blind visualization into target path
-	 * 
-	 * @param path
-	 *            target path
-	 */
-	@SuppressWarnings("nls")
+//	/**
+//	 * Save images used in blind visualization into target path
+//	 *
+//	 * @param path
+//	 *            target path
+//	 */
+//	@SuppressWarnings("nls")
 //	public static void saveImages(String path) {
 //		Bundle bundleChecker = Platform.getBundle(EvaluationUtil.PLUGIN_ID);
 //
