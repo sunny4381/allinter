@@ -26,6 +26,10 @@ dependencies {
     implementation("com.ibm.icu:icu4j:66.1")
     implementation("com.github.kklisura.cdt:cdt-java-client:2.1.0")
     implementation("info.picocli:picocli:4.2.0")
+    // logging
+    implementation("org.slf4j:slf4j-api:1.7.30")
+    implementation("org.slf4j:jul-to-slf4j:1.7.30")
+    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
     // eclipse
     implementation("org.eclipse.platform:org.eclipse.core.runtime:3.17.100")
 

@@ -5,6 +5,8 @@ import com.github.kklisura.cdt.launch.ChromeLauncher;
 import com.github.kklisura.cdt.services.ChromeDevToolsService;
 import com.github.kklisura.cdt.services.ChromeService;
 import com.github.kklisura.cdt.services.types.ChromeTab;
+import org.slf4j.LoggerFactory;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import picocli.CommandLine;
 
 import java.util.Locale;
@@ -34,6 +36,12 @@ public class App implements Callable<Integer> {
     private LowVisionOptions lowVisionOptions = new LowVisionOptions();
 
     public static void main(String[] args) {
+        // slf4j のロガーを 1 つでも作らないとちゃんと初期化が行われない様子
+        LoggerFactory.getLogger(App.class);
+        // java.util.loggin(jul) のブリッジ登録
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+
         System.exit(execute(args));
     }
 
