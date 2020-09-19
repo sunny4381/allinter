@@ -30,8 +30,6 @@ dependencies {
     implementation("org.slf4j:slf4j-api:1.7.30")
     implementation("org.slf4j:jul-to-slf4j:1.7.30")
     runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
-    // eclipse
-    implementation("org.eclipse.platform:org.eclipse.core.runtime:3.17.100")
 
     // Use JUnit test framework
     testImplementation("junit:junit:4.12")

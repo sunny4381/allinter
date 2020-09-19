@@ -10,51 +10,51 @@
  *******************************************************************************/
 package org.eclipse.actf.visualization.internal.eval;
 
-import org.eclipse.actf.visualization.eval.EvaluationUtil;
-import org.eclipse.core.runtime.Plugin;
-import org.osgi.framework.BundleContext;
-
-/**
- * The activator class controls the plug-in life cycle
- */
-public class EvaluationPlugin extends Plugin {
-
-	// The shared instance
-	private static EvaluationPlugin plugin;
-	
-	/**
-	 * The constructor
-	 */
-	public EvaluationPlugin() {
-		plugin = this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
-
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static EvaluationPlugin getDefault() {
-		return plugin;
-	}
-
+//import org.eclipse.actf.visualization.eval.EvaluationUtil;
+//import org.eclipse.core.runtime.Plugin;
+//import org.osgi.framework.BundleContext;
+//
+///**
+// * The activator class controls the plug-in life cycle
+// */
+//public class EvaluationPlugin extends Plugin {
+//
+//	// The shared instance
+//	private static EvaluationPlugin plugin;
+//
+//	/**
+//	 * The constructor
+//	 */
+//	public EvaluationPlugin() {
+//		plugin = this;
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+//	 */
+//	public void start(BundleContext context) throws Exception {
+//		super.start(context);
+//	}
+//
+//	/*
+//	 * (non-Javadoc)
+//	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+//	 */
+//	public void stop(BundleContext context) throws Exception {
+//		plugin = null;
+//		super.stop(context);
+//	}
+//
+//	/**
+//	 * Returns the shared instance
+//	 *
+//	 * @return the shared instance
+//	 */
+//	public static EvaluationPlugin getDefault() {
+//		return plugin;
+//	}
+//
 //    /**
 //     * Returns an image descriptor for the image file at the given
 //     * plug-in relative path.
@@ -65,4 +65,4 @@ public class EvaluationPlugin extends Plugin {
 //    public static ImageDescriptor getImageDescriptor(String path) {
 //        return AbstractUIPlugin.imageDescriptorFromPlugin(EvaluationUtil.PLUGIN_ID, path);
 //    }
-}
+//}

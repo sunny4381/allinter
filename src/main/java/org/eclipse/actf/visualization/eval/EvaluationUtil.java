@@ -13,7 +13,6 @@ package org.eclipse.actf.visualization.eval;
 import org.eclipse.actf.examples.adesigner.eval.html.Checker;
 import org.eclipse.actf.visualization.eval.preferences.IPreferenceConstants;
 import org.eclipse.actf.visualization.internal.eval.CheckerExtension;
-import org.eclipse.actf.visualization.internal.eval.EvaluationPlugin;
 
 /**
  * Utility class for org.eclipse.actf.visualization.eval plugin
